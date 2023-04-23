@@ -1,0 +1,53 @@
+version: "3.8"
+
+services:
+  backend:
+    build: ./docker/backend
+    container_name: backend
+    restart: always
+    ports:
+      - $BACKEND_PORT:3000
+    volumes:
+      - ./app/backend:/app
+      - /app/backend/node_modules
+    depends_on:
+      - db
+    networks:
+      - my-network
+
+  frontend:
+    build: ./docker/frontend
+    container_name: frontend
+    restart: always
+    ports:
+      - $FRONT_PORT:3000
+    volumes:
+      - ./app/frontend:/app
+      - /app/frontend/node_modules
+    networks:
+      - my-network
+
+  db:
+    container_name: db
+    restart: always
+    build:
+      context: ./docker/db
+      args:
+        MYSQL_DATABASE: $MYSQL_DATABASE
+        MYSQL_USER: $MYSQL_USER
+        MYSQL_PASSWORD: $MYSQL_PASSWORD
+        MYSQL_ROOT_PASSWORD: $MYSQL_ROOT_PASSWORD
+        TZ: $TZ
+    volumes:
+      - db-data:/var/lib/mysql
+    platform: linux/amd64
+    ports:
+      - $DB_PORT:3306
+    networks:
+      - my-network
+
+networks:
+  my-network:
+
+volumes:
+  db-data:
