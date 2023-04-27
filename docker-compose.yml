@@ -2,7 +2,8 @@ version: "3.8"
 
 services:
   backend:
-    build: ./docker/backend
+    build:
+      context: ./docker/backend
     container_name: backend
     restart: always
     ports:
@@ -20,7 +21,7 @@ services:
     container_name: frontend
     restart: always
     ports:
-      - $FRONT_PORT:3000
+      - $FRONTEND_PORT:3000
     volumes:
       - ./app/frontend:/app
       - /app/frontend/node_modules
@@ -33,7 +34,7 @@ services:
     build:
       context: ./docker/db
       args:
-        MYSQL_DATABASE: $MYSQL_DATABASE
+        MYSQL_DATABASE: ${MYSQL_DATABASE}
         MYSQL_USER: $MYSQL_USER
         MYSQL_PASSWORD: $MYSQL_PASSWORD
         MYSQL_ROOT_PASSWORD: $MYSQL_ROOT_PASSWORD

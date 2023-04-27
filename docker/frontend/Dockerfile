@@ -1,11 +1,11 @@
-FROM node:14.15.3-alpine
+FROM node:16-alpine3.15
 
 WORKDIR /app
 
-COPY ./package*.json ./
+COPY package*.json ./
 
-# RUN npm install
+RUN npm install
 
 EXPOSE 3000
 
-# CMD npm run dev
+CMD npm run dev
