@@ -1,6 +1,7 @@
 import express from "express";
 import "dotenv/config";
 import routes from "./routes";
+import { config } from "./orm/config/ormconfig";
 
 export const app = express();
 
@@ -8,10 +9,15 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use("/", routes);
 
-const port = process.env.PORT || 3000;
+config
+  .initialize()
+  .then(() => console.log("Successfully connected to database"))
+  .catch((error) => console.log(error));
+
+const port: string = process.env.PORT || "3000";
 app.listen(port, () => {
   console.log(`Server running on port ${port}`);
-  console.log(process.env);
+  // console.log(process.env);
 });
 
 // app.use("/", indexRouter);
