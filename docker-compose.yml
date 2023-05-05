@@ -2,29 +2,28 @@ version: "3.8"
 
 services:
   backend:
-    build:
-      context: ./docker/backend
     container_name: backend
     restart: always
+    build: ./docker/backend
     ports:
       - $BACKEND_PORT:3000
     volumes:
       - ./app/backend:/app
-      - /app/backend/node_modules
+      # - /app/backend/node_modules
     depends_on:
       - db
     networks:
       - my-network
 
   frontend:
-    build: ./docker/frontend
     container_name: frontend
     restart: always
+    build: ./docker/frontend
     ports:
       - $FRONTEND_PORT:3000
     volumes:
       - ./app/frontend:/app
-      - /app/frontend/node_modules
+      # - /app/frontend/node_modules
     networks:
       - my-network
 
