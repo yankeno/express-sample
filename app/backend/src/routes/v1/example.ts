@@ -9,6 +9,7 @@ router.get(
     res: express.Response,
     next: express.NextFunction
   ) {
+    console.log(`example request: ${req}`);
     res.send("example response!");
   }
 );
