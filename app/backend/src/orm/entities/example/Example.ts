@@ -1,21 +1,10 @@
-import {
-  Column,
-  CreateDateColumn,
-  Entity,
-  PrimaryGeneratedColumn,
-} from "typeorm";
+import { Column, Entity } from "typeorm";
+import { BaseEntity } from "../abstracts/BaseEntity";
 
 @Entity("examples")
-export class Example {
-  @PrimaryGeneratedColumn()
-  id: number;
-
+export class Example extends BaseEntity {
   @Column({
     length: 100,
   })
   description: string;
-
-  @Column()
-  @CreateDateColumn()
-  created_at: Date;
 }

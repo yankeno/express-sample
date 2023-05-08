@@ -7,6 +7,9 @@ export class Period extends MasterEntity {
   @Column()
   period: string;
 
+  @Column()
+  period_en: string;
+
   @OneToMany(() => Budget, (budget) => budget.period)
   budgets: Budget[];
 }

@@ -1,7 +1,6 @@
 import { dataSource } from "./config/ormconfig";
 
 export const connectMysql = () => {
-  console.log(dataSource);
   dataSource
     .initialize()
     .then(() =>

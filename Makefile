@@ -19,5 +19,9 @@ generate-migration:
 	docker compose exec backend ash -c 'npm run typeorm migration:generate -- ./src/orm/migrations/$(file) -d dist/orm/config/ormconfig.js'
 sync-database:
 	docker compose exec backend ash -c 'npm run typeorm schema:sync -- -d dist/orm/config/ormconfig.js'
-# help:
-#     @grep "^[a-zA-Z\-]*:" Makefile | grep -v "grep" | sed -e 's/^/make /' | sed -e 's/://'
+dump:
+	docker compose exec db bash -c 'mysqldump --no-tablespaces -u$$MYSQL_USER -p$$MYSQL_ROOT_PASSWORD $$MYSQL_DATABASE > /tmp/dump.sql'
+	docker compose cp db:/tmp/dump.sql ./docker/tmp/dump.sql
+restore:
+	docker compose cp ./docker/tmp/dump.sql db:/tmp/dump.sql
+	docker compose exec db bash -c 'mysql -u$$MYSQL_USER -p$$MYSQL_ROOT_PASSWORD $$MYSQL_DATABASE < /tmp/dump.sql'
