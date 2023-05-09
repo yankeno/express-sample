@@ -24,11 +24,41 @@ export const findById = async (req: express.Request, res: express.Response) => {
       data: example,
     });
   } catch {
-    return res.send({
+    return res.status(404).send({
       message: "not found",
       data: null,
     });
   }
+};
+
+export const store = async (req: express.Request, res: express.Response) => {
+  const hoge = await repo.create({
+    description: req.body.description,
+  });
+  await repo.save(hoge);
+  return res.send({
+    message: "successfully created record",
+    data: hoge,
+  });
+};
+
+export const edit = async (req: express.Request, res: express.Response) => {
+  await repo.update(
+    { id: Number(req.params.id) },
+    { description: req.body.description }
+  );
+  return res.send({
+    message: "successfully updated record",
+    data: null,
+  });
+};
+
+export const destroy = async (req: express.Request, res: express.Response) => {
+  await repo.softDelete(req.params.id);
+  return res.send({
+    message: "successfully deleted record",
+    data: null,
+  });
 };
 
 export const count = async (req: express.Request, res: express.Response) => {
