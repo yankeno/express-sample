@@ -1,16 +1,13 @@
 <template>
-  <Tutorial />
+  <div>aaa</div>
 </template>
 
 <script lang="ts">
-import Vue from 'vue'
-
-export default Vue.extend({
+export default {
   name: 'IndexPage',
-  data() {
-    return {
-      hoge: 'aaa',
-    }
+  layout: 'default',
+  head: {
+    title: 'TOP',
   },
-})
+}
 </script>
