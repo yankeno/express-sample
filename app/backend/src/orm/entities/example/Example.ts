@@ -1,8 +1,8 @@
 import { Column, Entity } from "typeorm";
-import { MasterEntity } from "../abstracts/MasterEntity";
+import { BaseEntity } from "../abstracts/BaseEntity";
 
 @Entity("examples")
-export class Example extends MasterEntity {
+export class Example extends BaseEntity {
   @Column({
     length: 100,
   })

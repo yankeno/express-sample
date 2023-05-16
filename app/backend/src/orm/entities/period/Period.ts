@@ -1,9 +1,9 @@
 import { Column, Entity, OneToMany } from "typeorm";
 import { Budget } from "../budget/Budget";
-import { MasterEntity } from "../abstracts/MasterEntity";
+import { BaseEntity } from "../abstracts/BaseEntity";
 
 @Entity("periods")
-export class Period extends MasterEntity {
+export class Period extends BaseEntity {
   @Column()
   period: string;
 

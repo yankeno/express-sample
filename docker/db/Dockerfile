@@ -12,5 +12,5 @@ ENV MYSQL_DATABASE=${MYSQL_DATABASE} \
   MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD} \
   TZ=${TZ}
 
-COPY ./my.cnf /etc/mysql/conf.d/my.cnf
-RUN chmod 644 /etc/mysql/conf.d/my.cnf
+COPY ./my.cnf /etc/my.cnf
+RUN chmod 644 /etc/my.cnf

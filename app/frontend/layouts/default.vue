@@ -1,7 +1,9 @@
 <template>
   <div>
     <header-menu />
-    <nuxt />
+    <div id="contentContainer">
+      <nuxt />
+    </div>
   </div>
 </template>
 
@@ -15,3 +17,9 @@ export default {
   },
 }
 </script>
+
+<style scoped>
+#contentContainer {
+  padding: 2em;
+}
+</style>

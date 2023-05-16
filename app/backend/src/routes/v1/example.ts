@@ -6,7 +6,7 @@ import {
   findById,
   edit,
   destroy,
-} from "../..//controllers/ExampleController";
+} from "../../controllers/exampleController";
 
 const router = express.Router();
 

@@ -1,14 +1,14 @@
 <template>
-  <h1>test page</h1>
+  <h1>設定</h1>
 </template>
 
 <script lang="ts">
 // import Vue from 'vue'
 
 export default {
-  name: 'TestPage',
+  name: 'SettingsPage',
   head: {
-    title: 'テストページ',
+    title: '設定',
   },
 }
 </script>

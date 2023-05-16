@@ -49,4 +49,11 @@ export default {
       compact: true,
     },
   },
+
+  watchers: {
+    webpack: {
+      ignored: /node_modules/,
+      poll: true,
+    },
+  },
 }

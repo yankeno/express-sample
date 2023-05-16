@@ -5,6 +5,9 @@ import { BaseEntity } from "../abstracts/BaseEntity";
 
 @Entity("spendings")
 export class Spending extends BaseEntity {
+  @Column({ type: "date" })
+  date: Date;
+
   @ManyToOne(() => User, (user) => user.spendings)
   @JoinColumn({
     name: "user_id",

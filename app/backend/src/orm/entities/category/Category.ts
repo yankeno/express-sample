@@ -1,10 +1,10 @@
 import { Entity, Column, OneToMany, ManyToOne, JoinColumn } from "typeorm";
 import { Spending } from "../spending/Spending";
 import { ParentCategory } from "../parent_category/ParentCategory";
-import { MasterEntity } from "../abstracts/MasterEntity";
+import { BaseEntity } from "../abstracts/BaseEntity";
 
 @Entity("categories")
-export class Category extends MasterEntity {
+export class Category extends BaseEntity {
   @Column()
   name: string;
 
