@@ -1,6 +1,6 @@
 <template>
   <div>
-    <app-title app-title="ダッシュボード"></app-title>
+    <app-title text="ダッシュボード"></app-title>
     <div>bbbb</div>
     <div>aaa</div>
     <div>aaa</div>
@@ -84,12 +84,8 @@ export default {
   components: {
     AppTitle,
   },
-  asyncData() {
-    // const spendings =
-    return {
-      // console.log('asyncData')
-      test: 'test',
-    }
+  async asyncData() {
+    const test = await axios()
   },
   data() {
     return {
@@ -99,8 +95,6 @@ export default {
   head: {
     title: 'TOP',
   },
-  mounted() {
-    console.log(this.test)
-  },
+  mounted() {},
 }
 </script>

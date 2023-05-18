@@ -1,9 +1,16 @@
 import express from "express";
-import { amount, category } from "../../controllers/aggregateController";
+import {
+  date,
+  category,
+  week,
+  month,
+} from "../../controllers/aggregateController";
 
 const router = express.Router();
 
 router.get("/category", category);
-router.get("/amount", amount);
+router.get("/date", date);
+router.get("/week", week);
+router.get("/month", month);
 
 export default router;

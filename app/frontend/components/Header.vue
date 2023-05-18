@@ -3,7 +3,7 @@
     <b-navbar
       toggleable="lg"
       type="dark"
-      variant="secondary"
+      variant="info"
       class="header d-print-none app-header shadow-lg text-light"
     >
       <b-navbar-brand to="/test"> SmartSpend </b-navbar-brand>

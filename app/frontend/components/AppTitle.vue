@@ -1,6 +1,6 @@
 <template>
   <div id="titleContainer">
-    <h1 id="pageTitle">{{ appTitle }}</h1>
+    <h1 id="pageTitle">{{ text }}</h1>
   </div>
 </template>
 
@@ -8,7 +8,7 @@
 export default {
   name: 'AppTitle',
   props: {
-    appTitle: {
+    text: {
       type: String,
       default: 'タイトル',
     },

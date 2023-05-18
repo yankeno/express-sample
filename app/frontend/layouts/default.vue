@@ -20,6 +20,6 @@ export default {
 
 <style scoped>
 #contentContainer {
-  padding: 2em;
+  padding: 4em 2em 1em;
 }
 </style>
