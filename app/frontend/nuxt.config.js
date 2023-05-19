@@ -1,7 +1,7 @@
 export default {
   // Global page headers: https://go.nuxtjs.dev/config-head
   head: {
-    title: 'frontend',
+    title: 'Smart Spend',
     htmlAttrs: {
       lang: 'en',
     },
@@ -35,12 +35,13 @@ export default {
     'bootstrap-vue/nuxt',
     // https://go.nuxtjs.dev/axios
     '@nuxtjs/axios',
+    '@nuxtjs/dotenv',
   ],
-
   // Axios module configuration: https://go.nuxtjs.dev/config-axios
   axios: {
     // Workaround to avoid enforcing hard-coded localhost:3000: https://github.com/nuxt-community/axios-module/issues/308
-    baseURL: '/',
+    // baseURL: 'http://localhost:3000/v1',
+    baseURL: `${process.env.API_URL}/${process.env.API_VERSION}`,
   },
 
   // Build Configuration: https://go.nuxtjs.dev/config-build

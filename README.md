@@ -1,14 +1,14 @@
 # ハマりポイント
 
-## 多対多リレーションで中間テーブルや外部キーの名称を TypeORM のデフォルト以外にする方法は？
+## 多対多リレーションで中間テーブルや外部キーの名称を TypeORM のデフォルト以外にする方法がわからない
 
 [ドキュメント](https://typeorm.io/relations#joincolumn-options)の通り `@JoinColumn` でオプションを指定することで任意の名前にできる
 
-## TypeORM で中間テーブルのカラム順序を指定する方法は？
+## TypeORM で中間テーブルのカラム順序を指定する方法がわからない
 
-サポートされていないので別途マイグレーションを作成する必要がある
+- サポートされていないので別途マイグレーションを作成する必要がある
 
-- 使用した TypeORM のバージョンにおいては createConnection ではなく initialize でコネクションを確立する - chatGPT はこのように回答してきたが誤り
+- 使用した TypeORM のバージョンにおいては createConnection ではなく initialize でコネクションを確立する - chatGPT はこのように回答してきたが、これは古いバージョンの記法で現在は deprecated
 
 ```javascript
 import { createConnection } from "typeorm";
@@ -31,9 +31,23 @@ createConnection({
   });
 ```
 
+## TypeORM のエンティティで自動作成したテーブルでカラムの順序を指定する方法がわからない
+
+- 現状カラムの順序を指定する方法はないので諦める
+
 ## Nuxt のホットリロードが効かない
 
-効いているが反映が遅いだけだった。また pages の変更内容はホットリロードされるのに対して、components はリロードしないと反映されない。
+- 効いているが反映が遅いだけだった。また pages の変更内容はホットリロードされるのに対して、components はリロードしないと反映されない。
+
+## Nuxt で axios が使えない
+
+- エラーメッセージ
+
+```
+Cannot find name '$axios'.ts(2304)
+```
+
+# 実装予定
 
 ## ダッシュボードで実装するグラフ
 

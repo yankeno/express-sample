@@ -84,9 +84,6 @@ export default {
   components: {
     AppTitle,
   },
-  async asyncData() {
-    const test = await axios()
-  },
   data() {
     return {
       test: '',
@@ -95,6 +92,6 @@ export default {
   head: {
     title: 'TOP',
   },
-  mounted() {},
+  async mounted() {},
 }
 </script>

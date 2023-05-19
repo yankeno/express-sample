@@ -14,7 +14,12 @@
       "~/*": ["./*"],
       "@/*": ["./*"]
     },
-    "types": ["@nuxt/types", "@nuxt/typescript-build", "@types/node"]
+    "types": [
+      "@nuxt/types",
+      "@nuxt/typescript-build",
+      "@types/node",
+      "@nuxtjs/axios"
+    ]
   },
   "exclude": ["node_modules"],
   "include": ["./**/*"]
