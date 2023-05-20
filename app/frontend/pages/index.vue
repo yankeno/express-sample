@@ -77,9 +77,10 @@
 </template>
 
 <script lang="ts">
-import AppTitle from '~/components/AppTitle.vue'
+import Vue from 'vue';
+import AppTitle from '~/components/AppTitle.vue';
 
-export default {
+export default Vue.extend({
   name: 'IndexPage',
   components: {
     AppTitle,
@@ -87,11 +88,15 @@ export default {
   data() {
     return {
       test: '',
-    }
+    };
   },
   head: {
     title: 'TOP',
   },
-  async mounted() {},
-}
+  mounted() {
+    // console.log(this)
+    this.$store.dispatch('spending/load_pie_chart');
+    this.$store.dispatch('spending/load_bar_graph');
+  },
+});
 </script>

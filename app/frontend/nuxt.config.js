@@ -36,12 +36,14 @@ export default {
     // https://go.nuxtjs.dev/axios
     '@nuxtjs/axios',
     '@nuxtjs/dotenv',
+    '@nuxtjs/proxy',
   ],
   // Axios module configuration: https://go.nuxtjs.dev/config-axios
   axios: {
     // Workaround to avoid enforcing hard-coded localhost:3000: https://github.com/nuxt-community/axios-module/issues/308
     // baseURL: 'http://localhost:3000/v1',
-    baseURL: `${process.env.API_URL}/${process.env.API_VERSION}`,
+    proxy: true,
+    credentials: false,
   },
 
   // Build Configuration: https://go.nuxtjs.dev/config-build
@@ -51,10 +53,18 @@ export default {
     },
   },
 
+  proxy: {
+    '/api/': {
+      target: `${process.env.API_URL}`,
+      pathRewrite: { '^/api/': `/${process.env.API_VERSION}/` },
+      changeOrigin: true,
+    },
+  },
+
   watchers: {
     webpack: {
       ignored: /node_modules/,
       poll: true,
     },
   },
-}
+};

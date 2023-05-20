@@ -1,6 +1,8 @@
 <template>
   <div id="titleContainer">
-    <h1 id="pageTitle">{{ text }}</h1>
+    <h1 id="pageTitle">
+      <strong>{{ text }}</strong>
+    </h1>
   </div>
 </template>
 

@@ -39,13 +39,15 @@ createConnection({
 
 - 効いているが反映が遅いだけだった。また pages の変更内容はホットリロードされるのに対して、components はリロードしないと反映されない。
 
-## Nuxt で axios が使えない
+## Nuxt で this.$axios が使えない
 
-- エラーメッセージ
+ChatGPT によれば以下とのこと
 
 ```
-Cannot find name '$axios'.ts(2304)
+TypeScriptはthis.$axiosがコンテキストに存在することをデフォルトで知りません。
 ```
+
+よって this.$axios を使用する関数内で正しい型定義をしてやることで解消
 
 # 実装予定
 
