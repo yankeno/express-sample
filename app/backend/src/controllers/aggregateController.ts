@@ -161,3 +161,29 @@ export const month = async (req: express.Request, res: express.Response) => {
     });
   }
 };
+
+export const latest = async (req: express.Request, res: express.Response) => {
+  try {
+    const limit = req.query.limit ? Number(req.query.limit) : 6;
+    const response = await repo.find({
+      select: {
+        date: true,
+        category_id: true,
+        price: true,
+        description: true,
+      },
+      order: {
+        date: "DESC",
+      },
+      take: limit,
+    });
+    return res.send({
+      message: "successful",
+      data: response,
+    });
+  } catch {
+    return res.status(400).send({
+      message: "The given data was invalid",
+    });
+  }
+};

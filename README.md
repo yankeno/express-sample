@@ -49,6 +49,20 @@ TypeScriptはthis.$axiosがコンテキストに存在することをデフォ�
 
 よって this.$axios を使用する関数内で正しい型定義をしてやることで解消
 
+## apexchart の読み込みでエラーが発生する
+
+```
+window is not defined
+```
+
+ChatGPT によれば以下とのこと
+
+```
+Nuxt.jsでは、サーバーサイドレンダリング（SSR）がデフォルトで有効になっています。これは、初回のページロードを高速化し、SEOを改善するために行われます。しかし、この結果、クライアントサイド専用のコード（例えば、windowやdocumentを使用するコード）がサーバーサイドで実行されるとエラーが発生します。
+```
+
+また、[apexchart の issue](https://github.com/apexcharts/vue-apexcharts/issues/103)によると`<no-ssr>`で囲む必要がある。
+
 # 実装予定
 
 ## ダッシュボードで実装するグラフ
