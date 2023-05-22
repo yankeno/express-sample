@@ -12,10 +12,10 @@
 
       <b-collapse id="nav-collapse" is-nav>
         <b-navbar-nav>
-          <b-nav-item to="/">ダッシュボード</b-nav-item>
-          <b-nav-item to="/cashflow">家計簿</b-nav-item>
-          <b-nav-item to="/budgets">予算</b-nav-item>
-          <b-nav-item to="/settings">設定</b-nav-item>
+          <b-nav-item to="/" class="tab-menu">ダッシュボード</b-nav-item>
+          <b-nav-item to="/cashflow" class="tab-menu">家計簿</b-nav-item>
+          <b-nav-item to="/budgets" class="tab-menu">予算</b-nav-item>
+          <b-nav-item to="/settings" class="tab-menu">設定</b-nav-item>
         </b-navbar-nav>
 
         <!-- Right aligned nav items -->
@@ -37,7 +37,11 @@
 <script lang="ts">
 export default {
   name: 'HeaderMenu',
-}
+};
 </script>
 
-<style scoped></style>
+<style scoped>
+.tab-menu {
+  padding: 0 0.5em;
+}
+</style>

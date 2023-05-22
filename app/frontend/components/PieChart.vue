@@ -14,6 +14,7 @@
 
 <script lang="ts">
 import Vue from 'vue';
+import PeriodButton from './PeriodButton.vue';
 
 export default Vue.extend({
   name: 'PieChart',
@@ -25,6 +26,11 @@ export default Vue.extend({
           type: 'pie',
         },
         labels: [] as Array<string>,
+        title: {
+          text: 'カテゴリ別支出',
+          offsetY: 0,
+          align: 'center',
+        },
       },
     };
   },

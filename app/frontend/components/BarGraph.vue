@@ -6,17 +6,22 @@
         :options="chartOptions"
         :series="series"
         type="bar"
-        width="90%"
+        width="50%"
       ></ApexChart>
     </no-ssr>
+    <period-button />
   </div>
 </template>
 
 <script lang="ts">
 import Vue from 'vue';
+import PeriodButton from './PeriodButton.vue';
 
 export default Vue.extend({
   name: 'BarGraph',
+  components: {
+    PeriodButton,
+  },
   data() {
     return {
       series: [] as Array<Object>,
@@ -60,6 +65,11 @@ export default Vue.extend({
               return val.toLocaleString() + '円';
             },
           },
+        },
+        title: {
+          text: '期間別支出',
+          offsetY: 0,
+          align: 'center',
         },
       },
     };
