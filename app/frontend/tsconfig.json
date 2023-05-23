@@ -18,8 +18,10 @@
       "@nuxt/types",
       "@nuxt/typescript-build",
       "@types/node",
-      "@nuxtjs/axios"
-    ]
+      "@nuxtjs/axios",
+      "vuetify"
+    ],
+    "typeRoots": ["./node_modules/@types"]
   },
   "exclude": ["node_modules"],
   "include": ["./**/*"]

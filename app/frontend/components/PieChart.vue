@@ -9,15 +9,19 @@
         width="40%"
       ></ApexChart>
     </no-ssr>
+    <date-picker />
   </div>
 </template>
 
 <script lang="ts">
 import Vue from 'vue';
-import PeriodButton from './PeriodButton.vue';
+import DatePicker from './DatePicker.vue';
 
 export default Vue.extend({
   name: 'PieChart',
+  components: {
+    DatePicker,
+  },
   data() {
     return {
       series: [] as Array<number>,
