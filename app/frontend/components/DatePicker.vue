@@ -16,9 +16,18 @@
 
 <script lang="ts">
 export default {
-  data: () => ({
-    dates: ['2019-09-10', '2019-09-20'],
-  }),
+  data() {
+    return {
+      dates: [
+        new Date(Date.now() - new Date().getTimezoneOffset() * 60000)
+          .toISOString()
+          .substring(0, 10),
+        new Date(Date.now() - new Date().getTimezoneOffset() * 60000)
+          .toISOString()
+          .substring(0, 10),
+      ],
+    };
+  },
   computed: {
     dateRangeText() {
       return this.dates.join(' ~ ');

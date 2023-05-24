@@ -3,6 +3,7 @@
     <app-title text="ダッシュボード"></app-title>
     <pie-chart />
     <bar-graph />
+    <input-spending />
   </div>
 </template>
 
@@ -11,6 +12,7 @@ import Vue from 'vue';
 import AppTitle from '~/components/AppTitle.vue';
 import PieChart from '~/components/PieChart.vue';
 import BarGraph from '~/components/BarGraph.vue';
+import InputSpending from '~/components/InputSpending.vue';
 
 export default Vue.extend({
   name: 'IndexPage',
@@ -18,6 +20,7 @@ export default Vue.extend({
     AppTitle,
     PieChart,
     BarGraph,
+    InputSpending,
   },
   // data() {
   //   return {

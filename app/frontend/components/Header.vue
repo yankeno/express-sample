@@ -41,7 +41,11 @@ export default {
 </script>
 
 <style scoped>
+.app-name {
+  font-weight: 800;
+}
 .tab-menu {
   padding: 0 0.5em;
+  font-weight: 800;
 }
 </style>

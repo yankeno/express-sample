@@ -39,10 +39,10 @@ export default Vue.extend({
     };
   },
   async created() {
-    await this.$store.dispatch('spending/load_pie_chart');
+    await this.$store.dispatch('spending/load_pie_chart_date');
     this.chartOptions.labels =
-      this.$store.getters['spending/get_pie_chart_labels'];
-    this.series = this.$store.getters['spending/get_pie_chart_series'];
+      this.$store.getters['spending/get_pie_chart_date_labels'];
+    this.series = this.$store.getters['spending/get_pie_chart_date_series'];
   },
 });
 </script>

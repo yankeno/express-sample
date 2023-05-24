@@ -1,12 +1,10 @@
 <template>
-  <div>
-    <v-app id="app">
-      <header-menu />
-      <div id="contentContainer">
-        <nuxt />
-      </div>
-    </v-app>
-  </div>
+  <v-app id="app">
+    <header-menu />
+    <div id="contentContainer">
+      <nuxt />
+    </div>
+  </v-app>
 </template>
 
 <script lang="ts">

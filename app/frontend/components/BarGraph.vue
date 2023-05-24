@@ -75,10 +75,10 @@ export default Vue.extend({
     };
   },
   async created() {
-    await this.$store.dispatch('spending/load_bar_graph');
-    const labels = this.$store.getters['spending/get_bar_graph_labels'];
+    await this.$store.dispatch('spending/load_bar_graph_date');
+    const labels = this.$store.getters['spending/get_bar_graph_date_labels'];
     const series: Array<number> =
-      this.$store.getters['spending/get_bar_graph_series'];
+      this.$store.getters['spending/get_bar_graph_date_series'];
     this.chartOptions.xaxis.categories = labels;
     this.series.push({
       name: '使用金額',

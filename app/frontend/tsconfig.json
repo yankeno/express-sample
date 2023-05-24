@@ -19,9 +19,9 @@
       "@nuxt/typescript-build",
       "@types/node",
       "@nuxtjs/axios",
+      "@nuxt/vue-app",
       "vuetify"
-    ],
-    "typeRoots": ["./node_modules/@types"]
+    ]
   },
   "exclude": ["node_modules"],
   "include": ["./**/*"]

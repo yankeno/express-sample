@@ -7,40 +7,93 @@ import {
 } from '~/types/dashboard';
 
 export const state = (): DashboardState => ({
-  pie_chart: {
+  pie_chart_date: {
     labels: [],
     series: [],
   },
-  bar_graph: {
+  bar_graph_date: {
+    labels: [],
+    series: [],
+  },
+  pie_chart_week: {
+    labels: [],
+    series: [],
+  },
+  bar_graph_week: {
+    labels: [],
+    series: [],
+  },
+  pie_chart_month: {
+    labels: [],
+    series: [],
+  },
+  bar_graph_month: {
     labels: [],
     series: [],
   },
 });
 
 export const getters = {
-  get_pie_chart_labels: (state: DashboardState): Object =>
-    state.pie_chart.labels,
-  get_pie_chart_series: (state: DashboardState): Object =>
-    state.pie_chart.series,
-  get_bar_graph_labels: (state: DashboardState): Object =>
-    state.bar_graph.labels,
-  get_bar_graph_series: (state: DashboardState): Object =>
-    state.bar_graph.series,
+  get_pie_chart_date_labels: (state: DashboardState): Object =>
+    state.pie_chart_date.labels,
+  get_pie_chart_date_series: (state: DashboardState): Object =>
+    state.pie_chart_date.series,
+  get_bar_graph_date_labels: (state: DashboardState): Object =>
+    state.bar_graph_date.labels,
+  get_bar_graph_date_series: (state: DashboardState): Object =>
+    state.bar_graph_date.series,
+  get_pie_chart_week_labels: (state: DashboardState): Object =>
+    state.bar_graph_week.labels,
 };
 
 export const mutations: MutationTree<DashboardState> = {
-  set_pie_chart: (state: DashboardState, pieChart: CategoryResponse[]) => {
+  set_pie_chart_date: (state: DashboardState, pieChart: CategoryResponse[]) => {
     const labels = pieChart.map((i) => i.parent_category_name);
     const series = pieChart.map((i) => Number(i.amount));
-    state.pie_chart = {
+    state.pie_chart_date = {
       labels,
       series,
     };
   },
-  set_bar_chart: (state: DashboardState, barChart: TermResponse[]) => {
+  set_bar_chart_date: (state: DashboardState, barChart: TermResponse[]) => {
     const labels = barChart.map((i) => format(new Date(i.date), 'yyyy/MM/dd'));
     const series = barChart.map((i) => Number(i.amount));
-    state.bar_graph = {
+    state.bar_graph_date = {
+      labels,
+      series,
+    };
+  },
+  set_pie_chart_week: (state: DashboardState, pieChart: CategoryResponse[]) => {
+    const labels = pieChart.map((i) => i.parent_category_name);
+    const series = pieChart.map((i) => Number(i.amount));
+    state.pie_chart_week = {
+      labels,
+      series,
+    };
+  },
+  set_bar_chart_week: (state: DashboardState, barChart: TermResponse[]) => {
+    const labels = barChart.map((i) => format(new Date(i.date), 'yyyy/MM/dd'));
+    const series = barChart.map((i) => Number(i.amount));
+    state.bar_graph_week = {
+      labels,
+      series,
+    };
+  },
+  set_pie_chart_month: (
+    state: DashboardState,
+    pieChart: CategoryResponse[]
+  ) => {
+    const labels = pieChart.map((i) => i.parent_category_name);
+    const series = pieChart.map((i) => Number(i.amount));
+    state.pie_chart_month = {
+      labels,
+      series,
+    };
+  },
+  set_bar_chart_month: (state: DashboardState, barChart: TermResponse[]) => {
+    const labels = barChart.map((i) => format(new Date(i.date), 'yyyy/MM/dd'));
+    const series = barChart.map((i) => Number(i.amount));
+    state.bar_graph_month = {
       labels,
       series,
     };
@@ -48,13 +101,33 @@ export const mutations: MutationTree<DashboardState> = {
 };
 
 export const actions: ActionTree<DashboardState, DashboardState> = {
-  async load_pie_chart({ commit }) {
+  async load_pie_chart_date({ commit }) {
     const respose = await this.$axios.$get('/api/aggregate/category?id=1');
-    commit('set_pie_chart', respose.data);
+    commit('set_pie_chart_date', respose.data);
   },
-  async load_bar_graph({ commit }) {
+  async load_bar_graph_date({ commit }) {
     const response = await this.$axios.$get(
-      '/api/aggregate/date?id=1&from=2023-04-01'
+      '/api/aggregate/date?id=1&from=2023-05-01'
+    );
+    commit('set_bar_chart_date', response.data);
+  },
+  async load_pie_chart_week({ commit }) {
+    const respose = await this.$axios.$get('/api/aggregate/category?id=1');
+    commit('set_pie_chart_week', respose.data);
+  },
+  async load_bar_graph_week({ commit }) {
+    const response = await this.$axios.$get(
+      '/api/aggregate/week?id=1&from=2023-05-01'
+    );
+    commit('set_bar_chart', response.data);
+  },
+  async load_pie_chart_month({ commit }) {
+    const respose = await this.$axios.$get('/api/aggregate/category?id=1');
+    commit('set_pie_chart_month', respose.data);
+  },
+  async load_bar_graph_month({ commit }) {
+    const response = await this.$axios.$get(
+      '/api/aggregate/month?id=1&from=2023-05-01'
     );
     commit('set_bar_chart', response.data);
   },
