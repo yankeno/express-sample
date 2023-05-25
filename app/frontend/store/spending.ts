@@ -6,6 +6,7 @@ import {
   TermResponse,
 } from '~/types/dashboard';
 
+// 本来コンポーネントでデータ取得をすべきだが Vuex 練習用として store で取得
 export const state = (): DashboardState => ({
   pie_chart_date: {
     labels: [],

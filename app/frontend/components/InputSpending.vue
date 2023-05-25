@@ -22,6 +22,10 @@ export default Vue.extend({
       (value: any): Boolean | string =>
         (value && !isNaN(value)) || 'Numbers only',
     ],
+    parentCategories: [],
   }),
+  async created() {
+    this.parentCategories = await this.$axios.$get('/api/category');
+  },
 });
 </script>
