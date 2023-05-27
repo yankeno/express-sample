@@ -14,6 +14,6 @@ export type WeekResponse = {
 };
 
 export type MonthResponse = {
-  month: string;
+  date: string;
   amount: number;
 };

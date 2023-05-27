@@ -1,5 +1,5 @@
 export type DashboardState = {
-  pie_chart_date: {
+  pie_chart: {
     labels: Array<string>;
     series: Array<number>;
   };
@@ -7,15 +7,7 @@ export type DashboardState = {
     labels: Array<string>;
     series: Array<number>;
   };
-  pie_chart_week: {
-    labels: Array<string>;
-    series: Array<number>;
-  };
   bar_graph_week: {
-    labels: Array<string>;
-    series: Array<number>;
-  };
-  pie_chart_month: {
     labels: Array<string>;
     series: Array<number>;
   };

@@ -21,6 +21,7 @@ export const loadCategories = async () => {
         return {
           id: category.id,
           name: category.name,
+          parent_category_id: record.id,
         };
       }),
     };

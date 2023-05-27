@@ -96,7 +96,7 @@ export const aggregateByMonth = async (
   // 日付を YYYY-MM-DD の形式に変更
   return result.map((record) => {
     return {
-      month: moment(record.month).format(constDate.Date),
+      date: moment(record.month).format(constDate.Date),
       amount: record.amount,
     };
   });

@@ -9,7 +9,7 @@
         width="50%"
       ></ApexChart>
     </no-ssr>
-    <period-button />
+    <period-button @toggleTerm="toggle" />
   </div>
 </template>
 
@@ -74,8 +74,10 @@ export default Vue.extend({
       },
     };
   },
-  async created() {
+  async mounted() {
     await this.$store.dispatch('spending/load_bar_graph_date');
+    await this.$store.dispatch('spending/load_bar_graph_week');
+    await this.$store.dispatch('spending/load_bar_graph_month');
     const labels = this.$store.getters['spending/get_bar_graph_date_labels'];
     const series: Array<number> =
       this.$store.getters['spending/get_bar_graph_date_series'];
@@ -84,6 +86,34 @@ export default Vue.extend({
       name: '使用金額',
       data: series,
     });
+  },
+  methods: {
+    toggle(term: string) {
+      let labels;
+      let series;
+      this.series = [];
+      this.chartOptions.xaxis.categories = [];
+      switch (term) {
+        case 'date': {
+          labels = this.$store.getters['spending/get_bar_graph_date_labels'];
+          series = this.$store.getters['spending/get_bar_graph_date_series'];
+          break;
+        }
+        case 'week': {
+          labels = this.$store.getters['spending/get_bar_graph_week_labels'];
+          series = this.$store.getters['spending/get_bar_graph_week_series'];
+          break;
+        }
+        default:
+          labels = this.$store.getters['spending/get_bar_graph_month_labels'];
+          series = this.$store.getters['spending/get_bar_graph_month_series'];
+      }
+      this.chartOptions.xaxis.categories = labels;
+      this.series.push({
+        name: '使用金額',
+        data: series,
+      });
+    },
   },
 });
 </script>
