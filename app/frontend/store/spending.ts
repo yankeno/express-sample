@@ -82,8 +82,8 @@ export const mutations: MutationTree<DashboardState> = {
 
 export const actions: ActionTree<DashboardState, DashboardState> = {
   async load_pie_chart({ commit }) {
-    const respose = await this.$axios.$get('/api/aggregate/category?id=1');
-    commit('set_pie_chart', respose.data);
+    const response = await this.$axios.$get('/api/aggregate/category?id=1');
+    commit('set_pie_chart', response.data);
   },
   async load_bar_graph_date({ commit }) {
     const response = await this.$axios.$get(
@@ -101,7 +101,6 @@ export const actions: ActionTree<DashboardState, DashboardState> = {
     const response = await this.$axios.$get(
       '/api/aggregate/month?id=1&from=2023-05-01'
     );
-    console.log(response);
     commit('set_bar_graph_month', response.data);
   },
 };

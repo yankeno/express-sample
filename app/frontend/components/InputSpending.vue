@@ -1,23 +1,46 @@
 <template>
-  <v-container>
-    <v-row align="center">
-      <v-col class="d-flex" cols="10" sm="6">
+  <v-container class="container" fluid>
+    <v-row align="left">
+      <v-col class="d-flex" justify-center cols="12" no-gutters>
         <v-select
           v-model="selectedParent"
           :items="parentCategories"
           item-value="id"
           item-text="name"
           label="親カテゴリ"
+          class="category"
+          dense
+          solo
         ></v-select>
+        <div>&nbsp;</div>
         <v-select
           v-model="selectedChild"
           :items="childItems"
           item-value="id"
           item-text="name"
           label="子カテゴリ"
+          class="category"
+          dense
+          solo
         ></v-select>
       </v-col>
-      <v-text-field label="金額" :rules="rules"></v-text-field>
+    </v-row>
+    <v-row no-gutters>
+      <v-col cols="12">
+        <v-text-field label="金額" :rules="rules" suffix="円"></v-text-field>
+      </v-col>
+    </v-row>
+    <v-row no-gutters>
+      <v-col cols="12">
+        <v-text-field label="メモ"></v-text-field>
+      </v-col>
+    </v-row>
+    <v-row align="center" no-gutters>
+      <v-col cols="12">
+        <div class="text-center">
+          <v-btn rounded color="primary" dark> 保存する</v-btn>
+        </div>
+      </v-col>
     </v-row>
   </v-container>
 </template>
@@ -25,6 +48,7 @@
 <script lang="ts">
 import Vue from 'vue';
 import { ParentCategory, Category } from '../types/category';
+import { getters } from '../store/spending';
 
 export default Vue.extend({
   name: 'InputSpending',
@@ -54,3 +78,13 @@ export default Vue.extend({
   },
 });
 </script>
+
+<style scoped>
+.container {
+  background-color: #f4f4f4;
+  padding: 20px;
+}
+.category {
+  width: 150px;
+}
+</style>

@@ -8,8 +8,8 @@
         type="bar"
         width="50%"
       ></ApexChart>
+      <period-button @toggleTerm="toggle" />
     </no-ssr>
-    <period-button @toggleTerm="toggle" />
   </div>
 </template>
 
@@ -55,7 +55,7 @@ export default Vue.extend({
         },
         xaxis: {
           type: 'category',
-          categories: [],
+          categories: [] as Array<string>,
           position: 'bottom',
         },
         yaxis: {
@@ -78,21 +78,19 @@ export default Vue.extend({
     await this.$store.dispatch('spending/load_bar_graph_date');
     await this.$store.dispatch('spending/load_bar_graph_week');
     await this.$store.dispatch('spending/load_bar_graph_month');
-    const labels = this.$store.getters['spending/get_bar_graph_date_labels'];
-    const series: Array<number> =
-      this.$store.getters['spending/get_bar_graph_date_series'];
-    this.chartOptions.xaxis.categories = labels;
-    this.series.push({
-      name: '使用金額',
-      data: series,
-    });
+    const labels = await this.$store.getters[
+      'spending/get_bar_graph_date_labels'
+    ];
+    const series: Array<number> = await this.$store.getters[
+      'spending/get_bar_graph_date_series'
+    ];
+    this.chartOptions.xaxis.categories.push(...labels);
+    this.series = [{ name: '使用金額', data: series }];
   },
   methods: {
     toggle(term: string) {
-      let labels;
-      let series;
-      this.series = [];
-      this.chartOptions.xaxis.categories = [];
+      let labels: Array<string>;
+      let series: Array<number>;
       switch (term) {
         case 'date': {
           labels = this.$store.getters['spending/get_bar_graph_date_labels'];
@@ -108,11 +106,14 @@ export default Vue.extend({
           labels = this.$store.getters['spending/get_bar_graph_month_labels'];
           series = this.$store.getters['spending/get_bar_graph_month_series'];
       }
-      this.chartOptions.xaxis.categories = labels;
-      this.series.push({
-        name: '使用金額',
-        data: series,
-      });
+      this.chartOptions = {
+        ...this.chartOptions,
+        xaxis: {
+          ...this.chartOptions.xaxis,
+          categories: labels,
+        },
+      };
+      this.$set(this, 'series', [{ name: '使用金額', data: series }]);
     },
   },
 });

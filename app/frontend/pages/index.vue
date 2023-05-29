@@ -3,7 +3,13 @@
     <app-title text="ダッシュボード"></app-title>
     <pie-chart />
     <bar-graph />
-    <input-spending />
+    <v-container>
+      <v-row>
+        <v-col cols="6">
+          <input-spending />
+        </v-col>
+      </v-row>
+    </v-container>
   </div>
 </template>
 
