@@ -123,7 +123,14 @@ export const convertDate = (from: string, to: string) => {
     ? moment(from as any).format(constDate.DefaultFormat)
     : loadBeginningOfMonth();
   const end: string = to
-    ? moment(from as any).format(constDate.DefaultFormat)
+    ? moment(to as any).format(constDate.DefaultFormat)
     : loadToday();
-  return { start, end };
+
+  const startDate = new Date(start);
+  const endDate = new Date(end);
+
+  // 日付の大小が反転していたら正しい順序に並び替える
+  return startDate <= endDate
+    ? { start: start, end: end }
+    : { start: end, end: start };
 };

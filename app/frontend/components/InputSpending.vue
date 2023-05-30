@@ -26,8 +26,29 @@
       </v-col>
     </v-row>
     <v-row no-gutters>
-      <v-col cols="12">
+      <v-col class="d-flex" justify-center cols="12" no-gutters>
         <v-text-field label="金額" :rules="rules" suffix="円"></v-text-field>
+        <div>&nbsp;</div>
+        <v-menu
+          v-model="menu"
+          :close-on-content-click="false"
+          :nudge-right="40"
+          transition="scale-transition"
+          offset-y
+          min-width="auto"
+        >
+          <template v-slot:activator="{ on, attrs }">
+            <v-text-field
+              v-model="date"
+              label="日付"
+              readonly
+              prepend-icon="mdi-calendar"
+              v-bind="attrs"
+              v-on="on"
+            ></v-text-field>
+          </template>
+          <v-date-picker v-model="date" @input="menu = false"></v-date-picker>
+        </v-menu>
       </v-col>
     </v-row>
     <v-row no-gutters>
@@ -48,7 +69,6 @@
 <script lang="ts">
 import Vue from 'vue';
 import { ParentCategory, Category } from '../types/category';
-import { getters } from '../store/spending';
 
 export default Vue.extend({
   name: 'InputSpending',
@@ -63,6 +83,10 @@ export default Vue.extend({
       selectedChild: null as null | number,
       parentCategories: [] as Array<ParentCategory>,
       childItems: [] as Array<Category>,
+      date: new Date(Date.now() - new Date().getTimezoneOffset() * 60000)
+        .toISOString()
+        .substring(0, 10),
+      menu: false,
     };
   },
   watch: {
