@@ -1,14 +1,15 @@
 <template>
   <div>
+    <period-button @toggleTerm="toggle" />
     <no-ssr placeholder="Loading...">
       <ApexChart
         v-if="series.length"
         :options="chartOptions"
         :series="series"
         type="bar"
-        width="50%"
+        height="350"
+        width="90%"
       ></ApexChart>
-      <period-button @toggleTerm="toggle" />
     </no-ssr>
   </div>
 </template>
@@ -28,7 +29,7 @@ export default Vue.extend({
       chartOptions: {
         chart: {
           type: 'bar',
-          height: 300,
+          height: 350,
         },
         plotOptions: {
           bar: {
@@ -42,7 +43,7 @@ export default Vue.extend({
           enabled: false,
           offsetY: -20,
           style: {
-            fontSize: '12px',
+            fontSize: '15px',
             colors: ['#304758'],
           },
         },
@@ -57,6 +58,10 @@ export default Vue.extend({
           type: 'category',
           categories: [] as Array<string>,
           position: 'bottom',
+          labels: {
+            rotate: -45,
+            rotateAlways: true,
+          },
         },
         yaxis: {
           labels: {
@@ -64,6 +69,9 @@ export default Vue.extend({
             formatter: (val: number) => {
               return val.toLocaleString() + '円';
             },
+          },
+          axisBorder: {
+            show: false,
           },
         },
         title: {

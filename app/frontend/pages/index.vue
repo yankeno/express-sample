@@ -1,38 +1,24 @@
 <template>
   <div>
     <app-title text="ダッシュボード"></app-title>
-    <pie-chart />
-    <bar-graph />
-    <v-container>
-      <v-row>
-        <v-col cols="6">
-          <input-spending />
-        </v-col>
-      </v-row>
-    </v-container>
+    <pie-chart-section />
+    <bar-graph-section />
   </div>
 </template>
 
 <script lang="ts">
 import Vue from 'vue';
 import AppTitle from '~/components/AppTitle.vue';
-import PieChart from '~/components/PieChart.vue';
-import BarGraph from '~/components/BarGraph.vue';
-import InputSpending from '~/components/InputSpending.vue';
+import PieChartSection from '~/components/PieChartSection.vue';
+import BarGraphSection from '~/components/BarGraphSection.vue';
 
 export default Vue.extend({
   name: 'IndexPage',
   components: {
     AppTitle,
-    PieChart,
-    BarGraph,
-    InputSpending,
+    PieChartSection,
+    BarGraphSection,
   },
-  // data() {
-  //   return {
-  //     test: '',
-  //   };
-  // },
   head: {
     title: 'TOP',
   },

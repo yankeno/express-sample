@@ -6,22 +6,18 @@
         v-if="series.length"
         :options="chartOptions"
         :series="series"
-        width="40%"
+        width="90%"
       ></ApexChart>
     </no-ssr>
-    <date-picker />
   </div>
 </template>
 
 <script lang="ts">
 import Vue from 'vue';
-import DatePicker from './DatePicker.vue';
 
 export default Vue.extend({
   name: 'PieChart',
-  components: {
-    DatePicker,
-  },
+  components: {},
   data() {
     return {
       series: [] as Array<number>,
@@ -31,7 +27,7 @@ export default Vue.extend({
         },
         labels: [] as Array<string>,
         title: {
-          text: 'カテゴリ別支出',
+          text: 'カテゴリ別支出（今月）',
           offsetY: 0,
           align: 'center',
         },

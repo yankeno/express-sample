@@ -1,18 +1,24 @@
 <template>
   <div>
-    <v-row>
-      <v-col cols="12" sm="6">
+    <v-row dense>
+      <v-col cols="9">
         <v-text-field
           v-model="dateRangeText"
-          label="Date range"
           prepend-icon="mdi-calendar"
           readonly
+          dense
         ></v-text-field>
       </v-col>
     </v-row>
-    <v-row>
-      <v-col cols="12" sm="6">
-        <v-date-picker v-model="dates" range></v-date-picker>
+    <v-row dense>
+      <v-col cols="12">
+        <v-date-picker
+          v-model="dates"
+          elevation="10"
+          width="300"
+          dense
+          range
+        ></v-date-picker>
       </v-col>
     </v-row>
   </div>
@@ -20,6 +26,7 @@
 
 <script lang="ts">
 export default {
+  name: 'DatePicker',
   data() {
     return {
       dates: [

@@ -1,7 +1,7 @@
 <template>
   <v-container class="container" fluid>
     <v-row align="left">
-      <v-col class="d-flex" justify-center cols="12" no-gutters>
+      <v-col class="d-flex" justify-center cols="12">
         <v-select
           v-model="selectedParent"
           :items="parentCategories"
@@ -25,8 +25,8 @@
         ></v-select>
       </v-col>
     </v-row>
-    <v-row no-gutters>
-      <v-col class="d-flex" justify-center cols="12" no-gutters>
+    <v-row>
+      <v-col class="d-flex" justify-center cols="12">
         <v-text-field label="金額" :rules="rules" suffix="円"></v-text-field>
         <div>&nbsp;</div>
         <v-menu
@@ -51,12 +51,12 @@
         </v-menu>
       </v-col>
     </v-row>
-    <v-row no-gutters>
+    <v-row>
       <v-col cols="12">
         <v-text-field label="メモ"></v-text-field>
       </v-col>
     </v-row>
-    <v-row align="center" no-gutters>
+    <v-row align="center">
       <v-col cols="12">
         <div class="text-center">
           <v-btn rounded color="primary" dark> 保存する</v-btn>
