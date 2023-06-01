@@ -1,3 +1,5 @@
+require("module-alias/register");
+
 import express from "express";
 import routes from "./routes";
 import "dotenv/config";

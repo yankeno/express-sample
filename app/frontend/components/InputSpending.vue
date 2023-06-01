@@ -1,6 +1,6 @@
 <template>
   <v-container class="container" fluid>
-    <v-row align="left">
+    <v-row>
       <v-col class="d-flex" justify-center cols="12">
         <v-select
           v-model="selectedParent"

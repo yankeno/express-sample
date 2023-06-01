@@ -1,7 +1,7 @@
 <template>
   <v-card flat class="py-3">
     <v-card-text>
-      <v-row align="left" justify="left">
+      <v-row>
         <v-btn-toggle
           v-model="term"
           color="primary"

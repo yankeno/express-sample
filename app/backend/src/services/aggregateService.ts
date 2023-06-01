@@ -1,7 +1,7 @@
 import moment from "moment";
-import { dataSource } from "../orm/config/ormconfig";
-import { Spending } from "../orm/entities/spending/Spending";
-import { constDate } from "../constants/date";
+import { dataSource } from "@/orm/config/ormconfig";
+import { Spending } from "@/orm/entities/spending/Spending";
+import { constDate } from "@/constants/date";
 import { loadBeginningOfMonth, loadToday } from "../helpers/dateHelper";
 
 const repo = dataSource.getRepository(Spending);
