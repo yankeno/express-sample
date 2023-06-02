@@ -29,7 +29,7 @@ export class Spending extends BaseEntity {
   @Column({ type: "date" })
   date: Date;
 
-  @Column()
+  @Column({ nullable: true })
   description: string;
 
   @Column({ nullable: true })

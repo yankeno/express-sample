@@ -9,7 +9,7 @@ export const addSpending = async (
   category_id: number,
   date: string,
   price: number,
-  description: string,
+  description?: string,
   comment?: string
 ) => {
   try {
@@ -18,8 +18,10 @@ export const addSpending = async (
       category_id: category_id,
       date: date,
       price: price,
-      description: description,
     };
+    if (description) {
+      spendingData = { ...spendingData, description: description };
+    }
     if (comment) {
       spendingData = { ...spendingData, comment: comment };
     }

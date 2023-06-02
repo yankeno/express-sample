@@ -27,7 +27,7 @@
     </v-row>
     <v-row>
       <v-col class="d-flex" justify-center cols="12">
-        <v-text-field label="金額" :rules="rules" suffix="円"></v-text-field>
+        <v-text-field v-model="price" label="金額" suffix="円"></v-text-field>
         <div>&nbsp;</div>
         <v-menu
           v-model="menu"
@@ -53,13 +53,15 @@
     </v-row>
     <v-row>
       <v-col cols="12">
-        <v-text-field label="メモ"></v-text-field>
+        <v-text-field v-model="comment" label="メモ"></v-text-field>
       </v-col>
     </v-row>
     <v-row align="center">
       <v-col cols="12">
         <div class="text-center">
-          <v-btn rounded color="primary" dark> 保存する</v-btn>
+          <v-btn @click="submitSpending" rounded color="primary" dark>
+            保存する</v-btn
+          >
         </div>
       </v-col>
     </v-row>
@@ -74,13 +76,10 @@ export default Vue.extend({
   name: 'InputSpending',
   data() {
     return {
-      rules: [
-        (value: any) => !!value || 'Required',
-        (value: any): Boolean | string =>
-          (value && !isNaN(value)) || 'Numbers only',
-      ],
       selectedParent: null as null | number,
       selectedChild: null as null | number,
+      price: null as null | number,
+      comment: null as null | string,
       parentCategories: [] as Array<ParentCategory>,
       childItems: [] as Array<Category>,
       date: new Date(Date.now() - new Date().getTimezoneOffset() * 60000)
@@ -91,6 +90,7 @@ export default Vue.extend({
   },
   watch: {
     selectedParent(v) {
+      if (v === null) return;
       const selectedParent = this.parentCategories.filter((i) => i.id === v);
       this.childItems = selectedParent[0].categories;
       this.selectedChild = null;
@@ -99,6 +99,43 @@ export default Vue.extend({
   async mounted() {
     const response = await this.$axios.$get('/api/category');
     this.parentCategories = response.data;
+  },
+  methods: {
+    async submitSpending() {
+      await this.$axios
+        .post('/api/spending/create', {
+          user_id: 1,
+          category_id: this.selectedChild,
+          date: this.date,
+          price: this.price,
+          comment: this.comment,
+        })
+        .then((res) => {
+          if (res.status !== 200) {
+            throw new Error('Bad request');
+          }
+          this.$toast.open({
+            message: '支出を登録しました。',
+            position: 'top',
+          });
+          this.selectedParent = null;
+          this.selectedChild = null;
+          this.price = null;
+          this.comment = null;
+          this.date = new Date(
+            Date.now() - new Date().getTimezoneOffset() * 60000
+          )
+            .toISOString()
+            .substring(0, 10);
+        })
+        .catch((error) => {
+          this.$toast.open({
+            type: error,
+            message: '支出の登録に失敗しました。',
+            position: 'top',
+          });
+        });
+    },
   },
 });
 </script>

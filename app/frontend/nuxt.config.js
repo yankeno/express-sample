@@ -21,6 +21,7 @@ export default {
   plugins: [
     { src: '@/plugins/apexcharts', ssr: false },
     { src: '@/plugins/vuetify', ssr: false },
+    { src: '@/plugins/vue-toast-notification', ssr: false },
   ],
 
   // Auto import components: https://go.nuxtjs.dev/config-components

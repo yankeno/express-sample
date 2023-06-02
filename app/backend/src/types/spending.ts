@@ -3,6 +3,6 @@ export type CreateRequest = {
   category_id: number;
   date: string;
   price: number;
-  description: string;
+  description?: string;
   comment?: string;
 };
