@@ -25,7 +25,9 @@
 </template>
 
 <script lang="ts">
-export default {
+import Vue from 'vue';
+
+export default Vue.extend({
   name: 'DatePicker',
   data() {
     return {
@@ -36,13 +38,15 @@ export default {
         new Date(Date.now() - new Date().getTimezoneOffset() * 60000)
           .toISOString()
           .substring(0, 10),
-      ],
+      ] as string[],
     };
   },
   computed: {
-    dateRangeText() {
+    dateRangeText(): string {
+      if (this.dates.length === 2) {
+      }
       return this.dates.join(' ~ ');
     },
   },
-};
+});
 </script>

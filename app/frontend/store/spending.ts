@@ -1,5 +1,5 @@
 import { MutationTree, ActionTree } from 'vuex/types';
-import format from 'date-fns/format';
+import { format, startOfMonth, subMonths } from 'date-fns';
 import {
   CategoryResponse,
   DashboardState,
@@ -87,21 +87,33 @@ export const actions: ActionTree<DashboardState, DashboardState> = {
     );
     commit('set_pie_chart', response.data);
   },
-  async load_bar_graph_date({ commit }) {
+  async load_bar_graph_date({ commit }, term) {
+    const from: string = term
+      ? term.from
+      : format(startOfMonth(new Date()), 'yyyy-MM-dd');
+    const to: string = term ? term.to : format(new Date(), 'yyyy-MM-dd');
     const response = await this.$axios.$get(
-      '/api/aggregate/date?id=1&from=2023-05-01'
+      `/api/aggregate/date?id=1&from=${from}&to=${to}`
     );
     commit('set_bar_graph_date', response.data);
   },
-  async load_bar_graph_week({ commit }) {
+  async load_bar_graph_week({ commit }, term) {
+    const from = term
+      ? term.from
+      : format(startOfMonth(subMonths(new Date(), 3)), 'yyyy-MM-dd'); // 3ヶ月前の月初
+    const to: string = term ? term.to : format(new Date(), 'yyyy-MM-dd');
     const response = await this.$axios.$get(
-      '/api/aggregate/week?id=1&from=2023-05-01'
+      `/api/aggregate/week?id=1&from=${from}&to=${to}`
     );
     commit('set_bar_graph_week', response.data);
   },
-  async load_bar_graph_month({ commit }) {
+  async load_bar_graph_month({ commit }, term) {
+    const from = term
+      ? term.from
+      : format(startOfMonth(subMonths(new Date(), 6)), 'yyyy-MM-dd'); // 6ヶ月前の月初
+    const to: string = term ? term.to : format(new Date(), 'yyyy-MM-dd');
     const response = await this.$axios.$get(
-      '/api/aggregate/month?id=1&from=2023-05-01'
+      `/api/aggregate/month?id=1&from=${from}&to=${to}`
     );
     commit('set_bar_graph_month', response.data);
   },

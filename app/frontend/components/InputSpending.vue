@@ -128,12 +128,13 @@ export default Vue.extend({
             .toISOString()
             .substring(0, 10);
         })
-        .catch((error) => {
+        .catch((e) => {
           this.$toast.open({
-            type: error,
+            type: 'error',
             message: '支出の登録に失敗しました。',
             position: 'top',
           });
+          console.error(e);
         });
     },
   },

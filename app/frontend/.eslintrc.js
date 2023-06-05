@@ -9,7 +9,7 @@ module.exports = {
     'plugin:nuxt/recommended',
     'prettier',
   ],
-  plugins: [],
+  plugins: ['import'],
   // add your custom rules here
   rules: {
     '@typescript-eslint/camelcase': 'off',
