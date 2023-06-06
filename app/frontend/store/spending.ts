@@ -24,6 +24,7 @@ export const state = (): DashboardState => ({
     labels: [],
     series: [],
   },
+  bar_graph_dates: [],
 });
 
 export const getters = {
@@ -78,12 +79,19 @@ export const mutations: MutationTree<DashboardState> = {
       series,
     };
   },
+  set_bar_graph_dates: (state: DashboardState, dates: Array<string>) => {
+    state.bar_graph_dates = dates;
+  },
 };
 
 export const actions: ActionTree<DashboardState, DashboardState> = {
-  async load_pie_chart({ commit }) {
+  async load_pie_chart({ commit }, term) {
+    const from: string = term
+      ? term.from
+      : format(startOfMonth(new Date()), 'yyyy-MM-dd');
+    const to: string = term ? term.to : format(new Date(), 'yyyy-MM-dd');
     const response = await this.$axios.$get(
-      '/api/aggregate/category?id=1&from=2023-05-01'
+      `/api/aggregate/category?id=1&from=${from}&to=${to}`
     );
     commit('set_pie_chart', response.data);
   },
@@ -95,6 +103,7 @@ export const actions: ActionTree<DashboardState, DashboardState> = {
     const response = await this.$axios.$get(
       `/api/aggregate/date?id=1&from=${from}&to=${to}`
     );
+    commit('set_bar_graph_dates', [from, to]);
     commit('set_bar_graph_date', response.data);
   },
   async load_bar_graph_week({ commit }, term) {
@@ -105,6 +114,7 @@ export const actions: ActionTree<DashboardState, DashboardState> = {
     const response = await this.$axios.$get(
       `/api/aggregate/week?id=1&from=${from}&to=${to}`
     );
+    commit('set_bar_graph_dates', [from, to]);
     commit('set_bar_graph_week', response.data);
   },
   async load_bar_graph_month({ commit }, term) {
@@ -115,6 +125,7 @@ export const actions: ActionTree<DashboardState, DashboardState> = {
     const response = await this.$axios.$get(
       `/api/aggregate/month?id=1&from=${from}&to=${to}`
     );
+    commit('set_bar_graph_dates', [from, to]);
     commit('set_bar_graph_month', response.data);
   },
 };

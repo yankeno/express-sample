@@ -43,9 +43,22 @@ export default Vue.extend({
   },
   computed: {
     dateRangeText(): string {
-      if (this.dates.length === 2) {
+      const barGraphDate = this.$store.state.spending.bar_graph_dates;
+      console.log(barGraphDate);
+      return barGraphDate ? barGraphDate.join(' ~ ') : '';
+    },
+  },
+  watch: {
+    dates(newDates: Array<string>) {
+      if (newDates.length === 2) {
+        const term = {
+          from: newDates[0],
+          to: newDates[1],
+        };
+        this.$store.dispatch('spending/load_bar_graph_date', term);
+        this.$store.dispatch('spending/load_bar_graph_week', term);
+        this.$store.dispatch('spending/load_bar_graph_month', term);
       }
-      return this.dates.join(' ~ ');
     },
   },
 });

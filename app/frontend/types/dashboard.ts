@@ -15,6 +15,7 @@ export type DashboardState = {
     labels: Array<string>;
     series: Array<number>;
   };
+  bar_graph_dates: Array<string>;
 };
 
 export type CategoryResponse = {
