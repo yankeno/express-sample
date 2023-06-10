@@ -3,9 +3,9 @@
     <period-button @toggleTerm="toggle" />
     <no-ssr placeholder="Loading...">
       <ApexChart
-        v-if="series.length"
-        :options="chartOptions"
-        :series="series"
+        v-if="graphSeries.length"
+        :options="graphOptions"
+        :series="graphSeries"
         type="bar"
         height="350"
         width="90%"
@@ -16,6 +16,7 @@
 
 <script lang="ts">
 import Vue from 'vue';
+import { mapState } from 'vuex';
 import PeriodButton from './PeriodButton.vue';
 
 export default Vue.extend({
@@ -23,77 +24,44 @@ export default Vue.extend({
   components: {
     PeriodButton,
   },
-  data() {
-    return {
-      series: [] as Array<Object>,
-      chartOptions: {
-        chart: {
-          type: 'bar',
-          height: 350,
-        },
-        plotOptions: {
-          bar: {
-            borderRadius: 3,
-            dataLabels: {
-              position: 'top', // top, center, bottom
-            },
-          },
-        },
-        dataLabels: {
-          enabled: false,
-          offsetY: -20,
-          style: {
-            fontSize: '15px',
-            colors: ['#304758'],
-          },
-        },
-        tooltip: {
-          enabled: true,
-        },
-        legend: {
-          show: true,
-          position: 'left',
-        },
-        xaxis: {
-          type: 'category',
-          categories: [] as Array<string>,
-          position: 'bottom',
-          labels: {
-            rotate: -45,
-            rotateAlways: true,
-          },
-        },
-        yaxis: {
-          labels: {
-            show: true,
-            formatter: (val: number) => {
-              return val.toLocaleString() + '円';
-            },
-          },
-          axisBorder: {
-            show: false,
-          },
-        },
-        title: {
-          text: '期間別支出',
-          offsetY: 0,
-          align: 'center',
-        },
-      },
-    };
+  computed: {
+    ...mapState('spending', {
+      bar_graph_series: 'bar_graph_series',
+      bar_graph_options: 'bar_graph_options',
+    }),
+    graphSeries(): Array<string> {
+      return JSON.parse(JSON.stringify(this.bar_graph_series));
+    },
+    graphOptions(): any {
+      return JSON.parse(JSON.stringify(this.bar_graph_options));
+    },
   },
-  async mounted() {
+  async created() {
     await this.$store.dispatch('spending/load_bar_graph_date');
     await this.$store.dispatch('spending/load_bar_graph_week');
     await this.$store.dispatch('spending/load_bar_graph_month');
     const labels = await this.$store.getters[
       'spending/get_bar_graph_date_labels'
     ];
-    const series: Array<number> = await this.$store.getters[
-      'spending/get_bar_graph_date_series'
-    ];
-    this.chartOptions.xaxis.categories.push(...labels);
-    this.series = [{ name: '使用金額', data: series }];
+    const series: Array<number> = JSON.parse(
+      JSON.stringify(
+        await this.$store.getters['spending/get_bar_graph_date_series']
+      )
+    );
+    const originalOptions = JSON.parse(JSON.stringify(this.bar_graph_options));
+    const chartOptions: any = {
+      ...originalOptions,
+      xaxis: {
+        ...originalOptions.xaxis,
+        categories: labels,
+      },
+    };
+
+    const newChartOptions = JSON.parse(JSON.stringify(chartOptions));
+    this.$store.commit('spending/set_bar_graph_options', newChartOptions);
+
+    const newSeries = [{ name: '使用金額', data: [...series] }];
+    this.$store.commit('spending/set_bar_graph_series', newSeries);
   },
   methods: {
     toggle(term: string) {
@@ -114,14 +82,24 @@ export default Vue.extend({
           labels = this.$store.getters['spending/get_bar_graph_month_labels'];
           series = this.$store.getters['spending/get_bar_graph_month_series'];
       }
-      this.chartOptions = {
-        ...this.chartOptions,
+      this.$store.commit('spending/set_bar_graph_term', term);
+
+      const originalOptions = JSON.parse(
+        JSON.stringify(this.bar_graph_options)
+      );
+      const chartOptions: any = {
+        ...originalOptions,
         xaxis: {
-          ...this.chartOptions.xaxis,
+          ...originalOptions.xaxis,
           categories: labels,
         },
       };
-      this.$set(this, 'series', [{ name: '使用金額', data: series }]);
+
+      const newChartOptions = JSON.parse(JSON.stringify(chartOptions));
+      this.$store.commit('spending/set_bar_graph_options', newChartOptions);
+
+      const newSeries = [{ name: '使用金額', data: [...series] }];
+      this.$store.commit('spending/set_bar_graph_series', newSeries);
     },
   },
 });

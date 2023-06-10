@@ -6,7 +6,6 @@ import {
   TermResponse,
 } from '~/types/dashboard';
 
-// 本来コンポーネントでデータ取得をすべきだが Vuex 練習用として store で取得
 export const state = (): DashboardState => ({
   pie_chart: {
     labels: [],
@@ -24,7 +23,62 @@ export const state = (): DashboardState => ({
     labels: [],
     series: [],
   },
-  bar_graph_dates: [],
+  bar_graph_term: 'date',
+  bar_graph_series: [],
+  bar_graph_options: {
+    chart: {
+      type: 'bar',
+      height: 350,
+    },
+    plotOptions: {
+      bar: {
+        borderRadius: 3,
+        dataLabels: {
+          position: 'top', // top, center, bottom
+        },
+      },
+    },
+    dataLabels: {
+      enabled: false,
+      offsetY: -20,
+      style: {
+        fontSize: '15px',
+        colors: ['#304758'],
+      },
+    },
+    tooltip: {
+      enabled: true,
+    },
+    legend: {
+      show: true,
+      position: 'left',
+    },
+    xaxis: {
+      type: 'category',
+      categories: [] as Array<string>,
+      position: 'bottom',
+      labels: {
+        rotate: -45,
+        rotateAlways: true,
+      },
+    },
+    yaxis: {
+      labels: {
+        show: true,
+        formatter: (val: number) => {
+          return val.toLocaleString() + '円';
+        },
+      },
+      axisBorder: {
+        show: false,
+      },
+    },
+    title: {
+      text: '期間別支出',
+      offsetY: 0,
+      align: 'center',
+    },
+  },
 });
 
 export const getters = {
@@ -44,6 +98,11 @@ export const getters = {
     state.bar_graph_month.labels,
   get_bar_graph_month_series: (state: DashboardState): Object =>
     state.bar_graph_month.series,
+  get_bar_graph_term: (state: DashboardState): string => state.bar_graph_term,
+  get_bar_graph_series: (state: DashboardState): Array<string> =>
+    state.bar_graph_series,
+  get_bar_graph_options: (state: DashboardState): any =>
+    state.bar_graph_options,
 };
 
 export const mutations: MutationTree<DashboardState> = {
@@ -79,8 +138,14 @@ export const mutations: MutationTree<DashboardState> = {
       series,
     };
   },
-  set_bar_graph_dates: (state: DashboardState, dates: Array<string>) => {
-    state.bar_graph_dates = dates;
+  set_bar_graph_term: (state: DashboardState, term: string) => {
+    state.bar_graph_term = term;
+  },
+  set_bar_graph_series: (state: DashboardState, series: Array<string>) => {
+    state.bar_graph_series = [...series];
+  },
+  set_bar_graph_options: (state: DashboardState, options: any) => {
+    state.bar_graph_options = { ...options };
   },
 };
 
@@ -103,7 +168,6 @@ export const actions: ActionTree<DashboardState, DashboardState> = {
     const response = await this.$axios.$get(
       `/api/aggregate/date?id=1&from=${from}&to=${to}`
     );
-    commit('set_bar_graph_dates', [from, to]);
     commit('set_bar_graph_date', response.data);
   },
   async load_bar_graph_week({ commit }, term) {
@@ -114,7 +178,6 @@ export const actions: ActionTree<DashboardState, DashboardState> = {
     const response = await this.$axios.$get(
       `/api/aggregate/week?id=1&from=${from}&to=${to}`
     );
-    commit('set_bar_graph_dates', [from, to]);
     commit('set_bar_graph_week', response.data);
   },
   async load_bar_graph_month({ commit }, term) {
@@ -125,7 +188,12 @@ export const actions: ActionTree<DashboardState, DashboardState> = {
     const response = await this.$axios.$get(
       `/api/aggregate/month?id=1&from=${from}&to=${to}`
     );
-    commit('set_bar_graph_dates', [from, to]);
     commit('set_bar_graph_month', response.data);
+  },
+  load_bar_graph_series({ commit }, series) {
+    commit('set_bar_graph_series', series);
+  },
+  load_bar_graph_options({ commit }, options) {
+    commit('set_bar_graph_options', options);
   },
 };
