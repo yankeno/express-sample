@@ -18,6 +18,7 @@
 import Vue from 'vue';
 import { mapState } from 'vuex';
 import PeriodButton from './PeriodButton.vue';
+import { BarGrapSeries } from '~/types/dashboard';
 
 export default Vue.extend({
   name: 'BarGraph',
@@ -43,7 +44,7 @@ export default Vue.extend({
     const labels = await this.$store.getters[
       'spending/get_bar_graph_date_labels'
     ];
-    const series: Array<number> = JSON.parse(
+    const series: Array<BarGrapSeries> = JSON.parse(
       JSON.stringify(
         await this.$store.getters['spending/get_bar_graph_date_series']
       )
@@ -59,14 +60,12 @@ export default Vue.extend({
 
     const newChartOptions = JSON.parse(JSON.stringify(chartOptions));
     this.$store.commit('spending/set_bar_graph_options', newChartOptions);
-
-    const newSeries = [{ name: '使用金額', data: [...series] }];
-    this.$store.commit('spending/set_bar_graph_series', newSeries);
+    this.$store.commit('spending/set_bar_graph_series', series);
   },
   methods: {
     toggle(term: string) {
       let labels: Array<string>;
-      let series: Array<number>;
+      let series: Array<BarGrapSeries>;
       switch (term) {
         case 'date': {
           labels = this.$store.getters['spending/get_bar_graph_date_labels'];
@@ -98,8 +97,7 @@ export default Vue.extend({
       const newChartOptions = JSON.parse(JSON.stringify(chartOptions));
       this.$store.commit('spending/set_bar_graph_options', newChartOptions);
 
-      const newSeries = [{ name: '使用金額', data: [...series] }];
-      this.$store.commit('spending/set_bar_graph_series', newSeries);
+      this.$store.commit('spending/set_bar_graph_series', series);
     },
   },
 });

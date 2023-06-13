@@ -5,6 +5,7 @@ import {
   aggregateByMonth,
   aggregateByWeek,
   convertDate,
+  loadDateBudjet,
   loadLatestSpendings,
 } from "../services/aggregateService";
 import {
@@ -46,10 +47,19 @@ export const date = async (req: express.Request, res: express.Response) => {
       req.query.from as string,
       req.query.to as string
     );
-    const response: Array<DateResponse> = await aggregateByDate(id, start, end);
+    const spendings: Array<DateResponse> = await aggregateByDate(
+      id,
+      start,
+      end
+    );
+    const budget = await loadDateBudjet(id);
+    const budgets = new Array(spendings.length).fill(budget);
     return res.send({
       message: "successful",
-      data: response,
+      data: {
+        spendings: spendings,
+        budgets: budgets,
+      },
       from: start,
       to: end,
     });

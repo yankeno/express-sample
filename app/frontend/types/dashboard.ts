@@ -1,3 +1,7 @@
+export type BarGrapSeries = {
+  name: string;
+  data: Array<number>;
+};
 export type DashboardState = {
   pie_chart: {
     labels: Array<string>;
@@ -5,7 +9,7 @@ export type DashboardState = {
   };
   bar_graph_date: {
     labels: Array<string>;
-    series: Array<number>;
+    series: Array<BarGrapSeries>;
   };
   bar_graph_week: {
     labels: Array<string>;
@@ -16,7 +20,7 @@ export type DashboardState = {
     series: Array<number>;
   };
   bar_graph_term: string;
-  bar_graph_series: Array<string>;
+  bar_graph_series: Array<BarGrapSeries>;
   bar_graph_options: any;
 };
 
@@ -25,7 +29,12 @@ export type CategoryResponse = {
   amount: string;
 };
 
-export type TermResponse = {
+type Spending = {
   date: string;
   amount: string;
+};
+
+export type TermResponse = {
+  spendings: Array<Spending>;
+  budgets: Array<number>;
 };

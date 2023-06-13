@@ -3,15 +3,18 @@ import { dataSource } from "@/orm/config/ormconfig";
 import { Spending } from "@/orm/entities/spending/Spending";
 import { constDate } from "@/constants/date";
 import { loadBeginningOfMonth, loadToday } from "../helpers/dateHelper";
+import { Budget } from "~/orm/entities/budget/Budget";
+import { periods } from "~/constants/budget";
 
-const repo = dataSource.getRepository(Spending);
+const spendingRepository = dataSource.getRepository(Spending);
+const budjetRepository = dataSource.getRepository(Budget);
 
 export const aggregateByCategory = async (
   id: number,
   start: string,
   end: string
 ) => {
-  return await repo
+  return await spendingRepository
     .createQueryBuilder("spendings")
     .select([
       "parentCategory.name AS parent_category_name",
@@ -32,7 +35,7 @@ export const aggregateByDate = async (
   start: string,
   end: string
 ) => {
-  const result = await repo
+  const result = await spendingRepository
     .createQueryBuilder("spendings")
     .select(["date", "SUM(spendings.price) AS amount"])
     .innerJoin("spendings.user", "user")
@@ -50,12 +53,27 @@ export const aggregateByDate = async (
   });
 };
 
+export const loadDateBudjet = async (id: number) => {
+  const budget = await budjetRepository.findOne({
+    relations: {
+      period: true,
+    },
+    where: {
+      user_id: id,
+      period: {
+        period_en: periods.OneDay,
+      },
+    },
+  });
+  return budget?.amount;
+};
+
 export const aggregateByWeek = async (
   id: number,
   start: string,
   end: string
 ) => {
-  const result = await repo
+  const result = await spendingRepository
     .createQueryBuilder("spendings")
     .select([
       "SUBDATE(date, WEEKDAY(date)) as week",
@@ -81,7 +99,7 @@ export const aggregateByMonth = async (
   start: string,
   end: string
 ) => {
-  const result = await repo
+  const result = await spendingRepository
     .createQueryBuilder("spendings")
     .select([
       "DATE_FORMAT(date, '%Y-%m') as month",
@@ -103,7 +121,7 @@ export const aggregateByMonth = async (
 };
 
 export const loadLatestSpendings = async (limit: number) => {
-  return await repo.find({
+  return await spendingRepository.find({
     select: {
       id: true,
       date: true,

@@ -1,6 +1,7 @@
 import { MutationTree, ActionTree } from 'vuex/types';
 import { format, startOfMonth, subMonths } from 'date-fns';
 import {
+  BarGrapSeries,
   CategoryResponse,
   DashboardState,
   TermResponse,
@@ -99,7 +100,7 @@ export const getters = {
   get_bar_graph_month_series: (state: DashboardState): Object =>
     state.bar_graph_month.series,
   get_bar_graph_term: (state: DashboardState): string => state.bar_graph_term,
-  get_bar_graph_series: (state: DashboardState): Array<string> =>
+  get_bar_graph_series: (state: DashboardState): Array<BarGrapSeries> =>
     state.bar_graph_series,
   get_bar_graph_options: (state: DashboardState): any =>
     state.bar_graph_options,
@@ -114,15 +115,22 @@ export const mutations: MutationTree<DashboardState> = {
       series,
     };
   },
-  set_bar_graph_date: (state: DashboardState, barChart: TermResponse[]) => {
-    const labels = barChart.map((i) => format(new Date(i.date), 'yyyy/MM/dd'));
-    const series = barChart.map((i) => Number(i.amount));
-    state.bar_graph_date = {
-      labels,
-      series,
-    };
+  set_bar_graph_date: (state: DashboardState, barChart: TermResponse) => {
+    const labels = barChart.spendings.map((i) =>
+      format(new Date(i.date), 'yyyy/MM/dd')
+    );
+    const spendings = barChart.spendings.map((i) => Number(i.amount));
+    const budgets = barChart.budgets;
+    state.bar_graph_date.labels = labels;
+    state.bar_graph_date.series = [
+      { name: '実績', data: spendings },
+      {
+        name: '予算',
+        data: budgets,
+      },
+    ];
   },
-  set_bar_graph_week: (state: DashboardState, barChart: TermResponse[]) => {
+  set_bar_graph_week: (state: DashboardState, barChart: any) => {
     const labels = barChart.map((i) => format(new Date(i.date), 'yyyy/MM/dd'));
     const series = barChart.map((i) => Number(i.amount));
     state.bar_graph_week = {
@@ -130,7 +138,7 @@ export const mutations: MutationTree<DashboardState> = {
       series,
     };
   },
-  set_bar_graph_month: (state: DashboardState, barChart: TermResponse[]) => {
+  set_bar_graph_month: (state: DashboardState, barChart: any) => {
     const labels = barChart.map((i) => format(new Date(i.date), 'yyyy/MM/dd'));
     const series = barChart.map((i) => Number(i.amount));
     state.bar_graph_month = {
@@ -141,11 +149,14 @@ export const mutations: MutationTree<DashboardState> = {
   set_bar_graph_term: (state: DashboardState, term: string) => {
     state.bar_graph_term = term;
   },
-  set_bar_graph_series: (state: DashboardState, series: Array<string>) => {
-    state.bar_graph_series = [...series];
+  set_bar_graph_series: (
+    state: DashboardState,
+    series: Array<BarGrapSeries>
+  ) => {
+    state.bar_graph_series = series;
   },
   set_bar_graph_options: (state: DashboardState, options: any) => {
-    state.bar_graph_options = { ...options };
+    state.bar_graph_options = options;
   },
 };
 
@@ -189,11 +200,5 @@ export const actions: ActionTree<DashboardState, DashboardState> = {
       `/api/aggregate/month?id=1&from=${from}&to=${to}`
     );
     commit('set_bar_graph_month', response.data);
-  },
-  load_bar_graph_series({ commit }, series) {
-    commit('set_bar_graph_series', series);
-  },
-  load_bar_graph_options({ commit }, options) {
-    commit('set_bar_graph_options', options);
   },
 };
