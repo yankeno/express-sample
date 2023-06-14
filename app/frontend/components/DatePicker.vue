@@ -99,9 +99,7 @@ export default Vue.extend({
 
         const newChartOptions = JSON.parse(JSON.stringify(chartOptions));
         this.$store.commit('spending/set_bar_graph_options', newChartOptions);
-
-        const newSeries = [{ name: '使用金額', data: [...series] }];
-        this.$store.commit('spending/set_bar_graph_series', newSeries);
+        this.$store.commit('spending/set_bar_graph_series', series);
       }
     },
   },

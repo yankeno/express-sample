@@ -7,13 +7,15 @@ import {
   convertDate,
   loadDateBudjet,
   loadLatestSpendings,
-} from "../services/aggregateService";
+  loadMonthBudjet,
+  loadWeekBudjet,
+} from "@/services/aggregateService";
 import {
   CategoryResponse,
   DateResponse,
   MonthResponse,
   WeekResponse,
-} from "../types/aggregate";
+} from "@/types/aggregate";
 
 export const category = async (req: express.Request, res: express.Response) => {
   try {
@@ -77,10 +79,19 @@ export const week = async (req: express.Request, res: express.Response) => {
       req.query.from as string,
       req.query.to as string
     );
-    const response: Array<WeekResponse> = await aggregateByWeek(id, start, end);
+    const spendings: Array<WeekResponse> = await aggregateByWeek(
+      id,
+      start,
+      end
+    );
+    const budget = await loadWeekBudjet(id);
+    const budgets = new Array(spendings.length).fill(budget);
     return res.send({
       message: "successful",
-      data: response,
+      data: {
+        spendings: spendings,
+        budgets: budgets,
+      },
       from: start,
       to: end,
     });
@@ -97,14 +108,19 @@ export const month = async (req: express.Request, res: express.Response) => {
       req.query.from as string,
       req.query.to as string
     );
-    const response: Array<MonthResponse> = await aggregateByMonth(
+    const spendings: Array<MonthResponse> = await aggregateByMonth(
       id,
       start,
       end
     );
+    const budget = await loadMonthBudjet(id);
+    const budgets = new Array(spendings.length).fill(budget);
     return res.send({
       message: "successful",
-      data: response,
+      data: {
+        spendings: spendings,
+        budgets: budgets,
+      },
       from: start,
       to: end,
     });

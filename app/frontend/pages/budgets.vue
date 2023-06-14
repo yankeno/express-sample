@@ -1,84 +1,6 @@
 <template>
   <div>
-    <!-- <h1>予算管理</h1> -->
-    <div>aaaa</div>
-    <div>aaaa</div>
-    <div>aaaa</div>
-    <div>aaaa</div>
-    <div>aaaa</div>
-    <div>aaaa</div>
-    <div>aaaa</div>
-    <div>aaaa</div>
-    <div>aaaa</div>
-    <div>aaaa</div>
-    <div>aaaa</div>
-    <div>aaaa</div>
-    <div>aaaa</div>
-    <div>aaaa</div>
-    <div>aaaa</div>
-    <div>aaaa</div>
-    <div>aaaa</div>
-    <div>aaaa</div>
-    <div>aaaa</div>
-    <div>aaaa</div>
-    <div>aaaa</div>
-    <div>aaaa</div>
-    <div>aaaa</div>
-    <div>aaaa</div>
-    <div>aaaa</div>
-    <div>aaaa</div>
-    <div>aaaa</div>
-    <div>aaaa</div>
-    <div>aaaa</div>
-    <div>aaaa</div>
-    <div>aaaa</div>
-    <div>aaaa</div>
-    <div>aaaa</div>
-    <div>aaaa</div>
-    <div>aaaa</div>
-    <div>aaaa</div>
-    <div>aaaa</div>
-    <div>aaaa</div>
-    <div>aaaa</div>
-    <div>aaaa</div>
-    <div>aaaa</div>
-    <div>aaaa</div>
-    <div>aaaa</div>
-    <div>aaaa</div>
-    <div>aaaa</div>
-    <div>aaaa</div>
-    <div>aaaa</div>
-    <div>aaaa</div>
-    <div>aaaa</div>
-    <div>aaaa</div>
-    <div>aaaa</div>
-    <div>aaaa</div>
-    <div>aaaa</div>
-    <div>aaaa</div>
-    <div>aaaa</div>
-    <div>aaaa</div>
-    <div>aaaa</div>
-    <div>aaaa</div>
-    <div>aaaa</div>
-    <div>aaaa</div>
-    <div>aaaa</div>
-    <div>aaaa</div>
-    <div>aaaa</div>
-    <div>aaaa</div>
-    <div>aaaa</div>
-    <div>aaaa</div>
-    <div>aaaa</div>
-    <div>aaaa</div>
-    <div>aaaa</div>
-    <div>aaaa</div>
-    <div>aaaa</div>
-    <div>aaaa</div>
-    <div>aaaa</div>
-    <div>aaaa</div>
-    <div>aaaa</div>
-    <div>aaaa</div>
-    <div>aaaa</div>
-    <div>aaaa</div>
+    <app-title text="予算管理"></app-title>
   </div>
 </template>
 
@@ -90,5 +12,5 @@ export default {
   head: {
     title: '予算管理',
   },
-}
+};
 </script>

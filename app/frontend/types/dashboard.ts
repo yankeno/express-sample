@@ -13,11 +13,11 @@ export type DashboardState = {
   };
   bar_graph_week: {
     labels: Array<string>;
-    series: Array<number>;
+    series: Array<BarGrapSeries>;
   };
   bar_graph_month: {
     labels: Array<string>;
-    series: Array<number>;
+    series: Array<BarGrapSeries>;
   };
   bar_graph_term: string;
   bar_graph_series: Array<BarGrapSeries>;

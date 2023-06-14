@@ -66,9 +66,6 @@ export const state = (): DashboardState => ({
     yaxis: {
       labels: {
         show: true,
-        formatter: (val: number) => {
-          return val.toLocaleString() + '円';
-        },
       },
       axisBorder: {
         show: false,
@@ -130,21 +127,35 @@ export const mutations: MutationTree<DashboardState> = {
       },
     ];
   },
-  set_bar_graph_week: (state: DashboardState, barChart: any) => {
-    const labels = barChart.map((i) => format(new Date(i.date), 'yyyy/MM/dd'));
-    const series = barChart.map((i) => Number(i.amount));
-    state.bar_graph_week = {
-      labels,
-      series,
-    };
+  set_bar_graph_week: (state: DashboardState, barChart: TermResponse) => {
+    const labels = barChart.spendings.map((i) =>
+      format(new Date(i.date), 'yyyy/MM/dd')
+    );
+    const spendings = barChart.spendings.map((i) => Number(i.amount));
+    const budgets = barChart.budgets;
+    state.bar_graph_week.labels = labels;
+    state.bar_graph_week.series = [
+      { name: '実績', data: spendings },
+      {
+        name: '予算',
+        data: budgets,
+      },
+    ];
   },
-  set_bar_graph_month: (state: DashboardState, barChart: any) => {
-    const labels = barChart.map((i) => format(new Date(i.date), 'yyyy/MM/dd'));
-    const series = barChart.map((i) => Number(i.amount));
-    state.bar_graph_month = {
-      labels,
-      series,
-    };
+  set_bar_graph_month: (state: DashboardState, barChart: TermResponse) => {
+    const labels = barChart.spendings.map((i) =>
+      format(new Date(i.date), 'yyyy/MM/dd')
+    );
+    const spendings = barChart.spendings.map((i) => Number(i.amount));
+    const budgets = barChart.budgets;
+    state.bar_graph_month.labels = labels;
+    state.bar_graph_month.series = [
+      { name: '実績', data: spendings },
+      {
+        name: '予算',
+        data: budgets,
+      },
+    ];
   },
   set_bar_graph_term: (state: DashboardState, term: string) => {
     state.bar_graph_term = term;

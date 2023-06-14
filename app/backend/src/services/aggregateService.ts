@@ -94,6 +94,21 @@ export const aggregateByWeek = async (
   });
 };
 
+export const loadWeekBudjet = async (id: number) => {
+  const budget = await budjetRepository.findOne({
+    relations: {
+      period: true,
+    },
+    where: {
+      user_id: id,
+      period: {
+        period_en: periods.OneWeek,
+      },
+    },
+  });
+  return budget?.amount;
+};
+
 export const aggregateByMonth = async (
   id: number,
   start: string,
@@ -118,6 +133,21 @@ export const aggregateByMonth = async (
       amount: record.amount,
     };
   });
+};
+
+export const loadMonthBudjet = async (id: number) => {
+  const budget = await budjetRepository.findOne({
+    relations: {
+      period: true,
+    },
+    where: {
+      user_id: id,
+      period: {
+        period_en: periods.OneMonth,
+      },
+    },
+  });
+  return budget?.amount;
 };
 
 export const loadLatestSpendings = async (limit: number) => {

@@ -37,10 +37,11 @@ export default Vue.extend({
       return JSON.parse(JSON.stringify(this.bar_graph_options));
     },
   },
-  async created() {
+  async mounted() {
     await this.$store.dispatch('spending/load_bar_graph_date');
     await this.$store.dispatch('spending/load_bar_graph_week');
     await this.$store.dispatch('spending/load_bar_graph_month');
+
     const labels = await this.$store.getters[
       'spending/get_bar_graph_date_labels'
     ];
@@ -96,7 +97,6 @@ export default Vue.extend({
 
       const newChartOptions = JSON.parse(JSON.stringify(chartOptions));
       this.$store.commit('spending/set_bar_graph_options', newChartOptions);
-
       this.$store.commit('spending/set_bar_graph_series', series);
     },
   },
