@@ -1,5 +1,6 @@
 import { dataSource } from "@/orm/config/ormconfig";
 import { Spending } from "@/orm/entities/spending/Spending";
+import { Like } from "typeorm";
 import { CreateRequest } from "~/types/spending";
 
 const repo = dataSource.getRepository(Spending);
@@ -29,6 +30,39 @@ export const addSpending = async (
     return await repo.save(spending);
   } catch (error) {
     console.error("Error while adding spending: ", error);
+    throw error;
+  }
+};
+
+export const loadMonthlySpendings = async (
+  user_id: number,
+  month: string, // YYYY-MMの形式で渡ってくる
+  category_id?: number
+) => {
+  try {
+    let findOption: any = {
+      select: {
+        id: true,
+        date: true,
+        price: true,
+        description: true,
+        comment: true,
+      },
+      where: {
+        user_id: user_id,
+        date: Like(month + "-%"),
+      },
+      order: {
+        date: "ASC",
+      },
+    };
+    if (category_id) {
+      findOption.where.category_id = category_id;
+    }
+
+    return await repo.find(findOption);
+  } catch (error) {
+    console.error("Error while getting spending list: ", error);
     throw error;
   }
 };

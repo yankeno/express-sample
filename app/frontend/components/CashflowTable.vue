@@ -1,8 +1,22 @@
 <template>
   <div>
-    <b-table hover :items="items" :fields="fields">
-      <template #cell(last_name)>
-        <input type="text" />
+    <b-table
+      hover
+      :items="items"
+      :fields="fields"
+      :sort-by.sync="sortBy"
+      :busy="isBusy"
+      head-variant="light"
+      responsive="sm"
+    >
+      <template #cell(comment)>
+        <comment-input />
+      </template>
+      <template #table-busy>
+        <div class="text-center text-danger my-2">
+          <b-spinner class="align-middle"></b-spinner>
+          <strong>Loading...</strong>
+        </div>
       </template>
     </b-table>
   </div>
@@ -10,12 +24,17 @@
 
 <script lang="ts">
 import Vue from 'vue';
+import CommentInput from './CommentInput.vue';
 
 export default Vue.extend({
   name: 'CashflowTable',
+  components: {
+    CommentInput,
+  },
   data() {
     return {
-      // Note `isActive` is left out and will not appear in the rendered table
+      isBusy: false,
+      sortBy: 'date',
       fields: [
         { key: 'date', label: '日付', sortable: true },
         { key: 'description', label: '内容', sortable: true },
