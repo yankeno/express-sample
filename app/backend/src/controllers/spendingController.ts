@@ -29,7 +29,7 @@ export const list = async (req: express.Request, res: express.Response) => {
         ? Number(req.query.category_id)
         : undefined;
     const response = await loadMonthlySpendings(
-      Number(req.query.user_id),
+      Number(req.query.id),
       String(req.query.month),
       categoryId
     );

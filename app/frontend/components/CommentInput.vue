@@ -17,21 +17,22 @@ import Vue from 'vue';
 export default Vue.extend({
   name: 'CommentInput',
   props: {
-    // id: {
-    //   type: Number,
-    //   required: true,
-    // },
-    // comment: {
-    //   type: String,
-    //   require: false,
-    // },
+    id: {
+      type: Number,
+      required: true,
+    },
+    comment: {
+      type: String,
+      required: false,
+      default: '',
+    },
   },
 });
 </script>
 
 <style>
 .height60Percent {
-  height: 1.8em;
+  height: 1.5em;
   border: none;
   color: #000;
   padding: 0 0.5rem;

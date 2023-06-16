@@ -35,12 +35,17 @@ export const addSpending = async (
 };
 
 export const loadMonthlySpendings = async (
-  user_id: number,
+  id: number,
   month: string, // YYYY-MMの形式で渡ってくる
   category_id?: number
 ) => {
   try {
     let findOption: any = {
+      relations: {
+        category: {
+          parentCategory: true,
+        },
+      },
       select: {
         id: true,
         date: true,
@@ -49,7 +54,7 @@ export const loadMonthlySpendings = async (
         comment: true,
       },
       where: {
-        user_id: user_id,
+        user_id: id,
         date: Like(month + "-%"),
       },
       order: {

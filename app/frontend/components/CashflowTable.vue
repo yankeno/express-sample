@@ -9,8 +9,8 @@
       head-variant="light"
       responsive="sm"
     >
-      <template #cell(comment)>
-        <comment-input />
+      <template #cell(comment)="data">
+        <comment-input :id="data.item.price" :comment="data.item.comment" />
       </template>
       <template #table-busy>
         <div class="text-center text-danger my-2">
@@ -24,6 +24,8 @@
 
 <script lang="ts">
 import Vue from 'vue';
+import { format } from 'date-fns';
+import { Spending } from '../types/spending';
 import CommentInput from './CommentInput.vue';
 
 export default Vue.extend({
@@ -43,49 +45,24 @@ export default Vue.extend({
         { key: 'child_category', label: '子カテゴリ', sortable: false },
         { key: 'comment', label: 'メモ', sortable: false },
       ],
-      items: [
-        {
-          date: '6/1',
-          description: 'Amazon Japan',
-          price: 3000,
-          parent_category: '日用品',
-          child_category: 'その他日用品',
-          comment: 'ネットショッピング',
-        },
-        {
-          date: '6/2',
-          description: 'Amazon Japan',
-          price: 3000,
-          parent_category: '日用品',
-          child_category: 'その他日用品',
-          comment: 'ネットショッピング',
-        },
-        {
-          date: '6/3',
-          description: 'Amazon Japan',
-          price: 3000,
-          parent_category: '日用品',
-          child_category: 'その他日用品',
-          comment: 'ネットショッピング',
-        },
-        {
-          date: '6/4',
-          description: 'Amazon Japan',
-          price: 3000,
-          parent_category: '日用品',
-          child_category: 'その他日用品',
-          comment: 'ネットショッピング',
-        },
-        {
-          date: '6/5',
-          description: 'Amazon Japan',
-          price: 3000,
-          parent_category: '日用品',
-          child_category: 'その他日用品',
-          comment: 'ネットショッピング',
-        },
-      ],
+      items: [] as Array<Object>,
     };
+  },
+  async mounted() {
+    const month = format(new Date(), 'yyyy-MM');
+    const response = await this.$axios.get(
+      `/api/spending/list?id=1&month=${month}`
+    );
+    const spendings: Array<Spending> = response.data.data;
+    spendings.forEach((v) => {
+      this.items.push({
+        id: v.id,
+        date: v.date,
+        description: v.description,
+        price: v.price,
+        // parent_category: v.
+      });
+    });
   },
 });
 </script>
