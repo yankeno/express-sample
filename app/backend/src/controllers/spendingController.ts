@@ -24,14 +24,9 @@ export const create = async (req: express.Request, res: express.Response) => {
 
 export const list = async (req: express.Request, res: express.Response) => {
   try {
-    const categoryId =
-      req.query.category_id && req.query.category_id !== "" // 空文字の場合はNumber()でNaNになるためチェック
-        ? Number(req.query.category_id)
-        : undefined;
     const response = await loadMonthlySpendings(
       Number(req.query.id),
-      String(req.query.month),
-      categoryId
+      String(req.query.month)
     );
     return res.send({
       message: "successful",

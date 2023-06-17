@@ -33,7 +33,7 @@ createConnection({
 
 ## TypeORM のエンティティで自動作成したテーブルでカラムの順序を指定する方法がわからない
 
-- 現状カラムの順序を指定する方法はないので諦める
+- 現状カラムの順序を指定する方法はないようなので諦める
 
 ## Nuxt のホットリロードが効かない
 
@@ -62,6 +62,30 @@ Nuxt.jsでは、サーバーサイドレンダリング（SSR）がデフォル�
 ```
 
 また、[apexchart の issue](https://github.com/apexcharts/vue-apexcharts/issues/103)によると`<no-ssr>`で囲む必要がある。
+
+## リレーション先のカラムを指定したい
+
+こんな SQL を ORM で表現したい
+
+```sql
+SELECT
+    spendings.id,
+    spendings.date,
+    spendings.price,
+    spendings.description,
+    spendings.comment,
+    category.id,
+    category.name
+FROM
+    spendings
+        JOIN
+    category ON spendings.category_id = category.id
+WHERE
+    user_id = 1 AND date LIKE '2023-06-%'
+ORDER BY date ASC;
+```
+
+できないようなので createQueryBuilder を使うしかない
 
 # 実装予定
 

@@ -41,8 +41,8 @@ export default Vue.extend({
         { key: 'date', label: '日付', sortable: true },
         { key: 'description', label: '内容', sortable: true },
         { key: 'price', label: '金額', sortable: true },
-        { key: 'parent_category', label: '親カテゴリ', sortable: false },
-        { key: 'child_category', label: '子カテゴリ', sortable: false },
+        { key: 'parent_category', label: '親カテゴリ', sortable: true },
+        { key: 'child_category', label: '子カテゴリ', sortable: true },
         { key: 'comment', label: 'メモ', sortable: false },
       ],
       items: [] as Array<Object>,
@@ -60,7 +60,7 @@ export default Vue.extend({
         date: v.date,
         description: v.description,
         price: v.price,
-        // parent_category: v.
+        // parent_category: v.category
       });
     });
   },

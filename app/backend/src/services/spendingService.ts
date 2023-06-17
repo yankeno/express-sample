@@ -36,36 +36,42 @@ export const addSpending = async (
 
 export const loadMonthlySpendings = async (
   id: number,
-  month: string, // YYYY-MMの形式で渡ってくる
-  category_id?: number
+  month: string // YYYY-MMの形式で渡ってくる
 ) => {
   try {
-    let findOption: any = {
-      relations: {
-        category: {
-          parentCategory: true,
-        },
-      },
-      select: {
-        id: true,
-        date: true,
-        price: true,
-        description: true,
-        comment: true,
-      },
-      where: {
-        user_id: id,
-        date: Like(month + "-%"),
-      },
-      order: {
-        date: "ASC",
-      },
-    };
-    if (category_id) {
-      findOption.where.category_id = category_id;
-    }
-
-    return await repo.find(findOption);
+    const spendings = await repo
+      .createQueryBuilder("spendings")
+      .innerJoinAndSelect("spendings.category", "category")
+      .innerJoinAndSelect("category.parentCategory", "parent_category")
+      .select([
+        "spendings.id",
+        "spendings.date",
+        "spendings.price",
+        "spendings.description",
+        "spendings.comment",
+      ])
+      .addSelect("category.id", "category_id")
+      .addSelect("category.name", "category_name")
+      .addSelect("category.parent_category_id", "parent_category_id")
+      .addSelect("parent_category.id", "parent_category_id")
+      .addSelect("parent_category.name", "parent_category_name")
+      .where("spendings.user_id = :userId", { userId: id })
+      .andWhere("spendings.date LIKE :date", { date: `${month}-%` })
+      .orderBy("spendings.date", "ASC")
+      .getMany();
+    return spendings.map((spending) => {
+      return {
+        id: spending.id,
+        price: spending.price,
+        date: spending.date,
+        description: spending.description,
+        comment: spending.comment,
+        category_id: spending.category.id,
+        category_name: spending.category.name,
+        parent_category_id: spending.category.parentCategory.id,
+        parent_category_name: spending.category.parentCategory.name,
+      };
+    });
   } catch (error) {
     console.error("Error while getting spending list: ", error);
     throw error;

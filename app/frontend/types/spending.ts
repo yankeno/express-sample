@@ -4,5 +4,10 @@ export type Spending = {
   price: number;
   description: string;
   comment: string | null;
-  category: Object;
+  category_id: number;
+  category_name: string;
+  parent_category_id: number;
+  parent_category_name: string;
 };
+
+export type Category = {};
