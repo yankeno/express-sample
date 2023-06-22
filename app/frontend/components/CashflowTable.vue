@@ -1,5 +1,37 @@
 <template>
   <div>
+    <v-row>
+      <v-col cols="3">
+        <v-menu
+          ref="menu"
+          v-model="menu"
+          :close-on-content-click="false"
+          :return-value.sync="date"
+          transition="scale-transition"
+          offset-y
+          max-width="290px"
+          min-width="auto"
+        >
+          <template v-slot:activator="{ on, attrs }">
+            <v-text-field
+              v-model="date"
+              label="対象月"
+              prepend-icon="mdi-calendar"
+              readonly
+              v-bind="attrs"
+              v-on="on"
+            ></v-text-field>
+          </template>
+          <v-date-picker v-model="date" type="month" no-title scrollable>
+            <v-spacer></v-spacer>
+            <v-btn text color="primary" @click="menu = false"> Cancel </v-btn>
+            <v-btn text color="primary" @click="$refs.menu.save(date)"
+              >OK</v-btn
+            >
+          </v-date-picker>
+        </v-menu>
+      </v-col>
+    </v-row>
     <b-table
       hover
       :items="items"
@@ -9,9 +41,6 @@
       head-variant="light"
       responsive="sm"
     >
-      <template #cell(comment)="data">
-        <comment-input :id="data.item.price" :comment="data.item.comment" />
-      </template>
       <template #table-busy>
         <div class="text-center text-danger my-2">
           <b-spinner class="align-middle"></b-spinner>
@@ -26,13 +55,9 @@
 import Vue from 'vue';
 import { format } from 'date-fns';
 import { Spending } from '../types/spending';
-import CommentInput from './CommentInput.vue';
 
 export default Vue.extend({
   name: 'CashflowTable',
-  components: {
-    CommentInput,
-  },
   data() {
     return {
       isBusy: false,
@@ -40,12 +65,21 @@ export default Vue.extend({
       fields: [
         { key: 'date', label: '日付', sortable: true },
         { key: 'description', label: '内容', sortable: true },
-        { key: 'price', label: '金額', sortable: true },
+        {
+          key: 'price',
+          label: '金額(円)',
+          sortable: true,
+          formatter: (value: number) => {
+            return value.toLocaleString();
+          },
+        },
         { key: 'parent_category', label: '親カテゴリ', sortable: true },
         { key: 'child_category', label: '子カテゴリ', sortable: true },
         { key: 'comment', label: 'メモ', sortable: false },
       ],
       items: [] as Array<Object>,
+      date: new Date().toISOString().substring(0, 7),
+      menu: false,
     };
   },
   async mounted() {
@@ -60,7 +94,9 @@ export default Vue.extend({
         date: v.date,
         description: v.description,
         price: v.price,
-        // parent_category: v.category
+        parent_category: v.parent_category_name,
+        child_category: v.category_name,
+        comment: v.comment,
       });
     });
   },

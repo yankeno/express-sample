@@ -1,6 +1,5 @@
 import { dataSource } from "@/orm/config/ormconfig";
 import { Spending } from "@/orm/entities/spending/Spending";
-import { Like } from "typeorm";
 import { CreateRequest } from "~/types/spending";
 
 const repo = dataSource.getRepository(Spending);
