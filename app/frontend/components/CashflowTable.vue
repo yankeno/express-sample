@@ -82,23 +82,34 @@ export default Vue.extend({
       menu: false,
     };
   },
-  async mounted() {
+  watch: {
+    date(newMonth) {
+      this.items = [];
+      this.fetchSpendings(newMonth);
+    },
+  },
+  mounted() {
     const month = format(new Date(), 'yyyy-MM');
-    const response = await this.$axios.get(
-      `/api/spending/list?id=1&month=${month}`
-    );
-    const spendings: Array<Spending> = response.data.data;
-    spendings.forEach((v) => {
-      this.items.push({
-        id: v.id,
-        date: v.date,
-        description: v.description,
-        price: v.price,
-        parent_category: v.parent_category_name,
-        child_category: v.category_name,
-        comment: v.comment,
+    this.fetchSpendings(month);
+  },
+  methods: {
+    async fetchSpendings(month: string) {
+      const response = await this.$axios.get(
+        `/api/spending/list?id=1&month=${month}`
+      );
+      const spendings: Array<Spending> = response.data.data;
+      spendings.forEach((v) => {
+        this.items.push({
+          id: v.id,
+          date: v.date,
+          description: v.description,
+          price: v.price,
+          parent_category: v.parent_category_name,
+          child_category: v.category_name,
+          comment: v.comment,
+        });
       });
-    });
+    },
   },
 });
 </script>
