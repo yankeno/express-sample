@@ -1,16 +1,42 @@
 <template>
   <div>
-    <no-ssr>
-      <VueSlider
-        v-model="dateBudget"
-        :height="20"
-        :tooltip="'always'"
-        :dot-size="20"
-        :min="0"
-        :max="dateMax"
-        :interval="1000"
-      ></VueSlider>
-    </no-ssr>
+    <v-card id="section">
+      <v-container>
+        <v-row>
+          <v-col cols="2">
+            <div>
+              <!-- <input v-model="dateBudget" @input="clearDateErrorMsg" /> -->
+              <b-form-input
+                id="input-valid"
+                v-model="dateBudget"
+                :state="!Boolean(dateErrorMsg)"
+                placeholder="1000"
+                @input="clearDateErrorMsg"
+              ></b-form-input>
+            </div>
+          </v-col>
+          <v-col cols="10">
+            <no-ssr>
+              <span style="color: red; margin-left: 20px">{{
+                dateErrorMsg
+              }}</span>
+              <VueSlider
+                v-model="dateBudget"
+                :height="20"
+                :tooltip="dateErrorMsg ? 'none' : 'always'"
+                :dot-size="20"
+                :min="0"
+                :max="dateMax"
+                :interval="100"
+                @error="dateError"
+                @change="clearDateErrorMsg"
+              ></VueSlider>
+            </no-ssr>
+          </v-col>
+        </v-row>
+      </v-container>
+    </v-card>
+
     <no-ssr>
       <VueSlider
         v-model="weekBudget"
@@ -30,21 +56,26 @@
         :dot-size="20"
         :min="0"
         :max="monthMax"
-        :interval="1000"
+        :interval="10000"
       ></VueSlider>
     </no-ssr>
-    <!-- <input v-model="dateBudget" type="text" /> -->
   </div>
 </template>
 
 <script lang="ts">
 import Vue from 'vue';
-if (process.client) require('vue-slider-component');
+
+const ERROR_TYPE = {
+  VALUE: 1,
+  INTERVAL: 2,
+  MIN: 3,
+  MAX: 4,
+  ORDER: 5,
+};
 
 const dateMax = 10000 as const;
 const weekMax = 70000 as const;
 const monthMax = 300000 as const;
-const step = 1000 as const;
 
 export default Vue.extend({
   data() {
@@ -55,7 +86,32 @@ export default Vue.extend({
       dateMax,
       weekMax,
       monthMax,
+      dateErrorMsg: '',
+      weekErrorMsg: '',
+      monthErrorMsg: '',
     };
+  },
+  methods: {
+    dateError(type: number, msg: string) {
+      switch (type) {
+        case ERROR_TYPE.MIN:
+          break;
+        case ERROR_TYPE.MAX:
+          break;
+        case ERROR_TYPE.VALUE:
+          break;
+      }
+      this.dateErrorMsg = `${msg}(${this.dateMax})`;
+    },
+    clearDateErrorMsg() {
+      this.dateErrorMsg = '';
+    },
+    clearWeekErrorMsg() {
+      this.weekErrorMsg = '';
+    },
+    clearMonthErrorMsg() {
+      this.dateErrorMsg = '';
+    },
   },
 });
 </script>
