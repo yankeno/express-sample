@@ -4,6 +4,7 @@ import express from "express";
 import routes from "./routes";
 import "dotenv/config";
 import { connectMysql } from "./orm/dbCreateConnection";
+import "reflect-metadata";
 
 export const app = express();
 

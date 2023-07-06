@@ -24,9 +24,25 @@ export const loadAllBudgets = async (id: number) => {
   });
   return periods.map((v) => {
     return {
+      id: v.id,
       period: v.period,
       period_en: v.period_en,
       amount: budgets.find((item) => item.period_id === v.id)?.amount ?? 0,
     };
   });
+};
+
+export const upsertBudgets = async (budgets: Array<Budget>) => {
+  try {
+    await dataSource.transaction(async (transactionEntityManager) => {
+      await Promise.all(
+        budgets.map((budget) => {
+          return transactionEntityManager.save(budget);
+        })
+      );
+    });
+  } catch (e) {
+    console.log(e);
+    throw e;
+  }
 };
