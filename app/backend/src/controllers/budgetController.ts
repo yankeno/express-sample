@@ -25,7 +25,7 @@ export const upsert = async (req: express.Request, res: express.Response) => {
     if (!req.body) {
       throw new Error();
     }
-    let budgets: Array<Budget> = [];
+    const budgets: Array<Budget> = [];
     req.body.forEach((v: any) => {
       let budgetObj: any = {
         user_id: v.user_id,

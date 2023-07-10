@@ -76,6 +76,9 @@ const ERROR_TYPE = {
 const dateMax = 10000 as const;
 const weekMax = 70000 as const;
 const monthMax = 300000 as const;
+const threeMonthsMax = 2000000 as const;
+const halfAMonthMax = 5000000 as const;
+const yearMax = 10000000 as const;
 
 export default Vue.extend({
   data() {
@@ -83,12 +86,21 @@ export default Vue.extend({
       dateBudget: 0,
       weekBudget: 0,
       monthBudget: 0,
+      threeMonthsBudget: 0,
+      halfAMonthBudget: 0,
+      yearBudget: 0,
       dateMax,
       weekMax,
       monthMax,
+      threeMonthsMax,
+      halfAMonthMax,
+      yearMax,
       dateErrorMsg: '',
       weekErrorMsg: '',
       monthErrorMsg: '',
+      threeMonthsErrorMsg: '',
+      halfAMonthErrorMsg: '',
+      yearErrorMsg: '',
     };
   },
   methods: {
@@ -111,6 +123,15 @@ export default Vue.extend({
     },
     clearMonthErrorMsg() {
       this.dateErrorMsg = '';
+    },
+    clearThreeMonthsErrorMsg() {
+      this.threeMonthsErrorMsg = '';
+    },
+    clearHalfAMonthErrorMsg() {
+      this.halfAMonthErrorMsg = '';
+    },
+    clearYearErrorMsg() {
+      this.yearErrorMsg = '';
     },
   },
 });

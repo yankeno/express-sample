@@ -8,6 +8,7 @@ const periodRepo = dataSource.getRepository(Period);
 export const loadAllBudgets = async (id: number) => {
   const budgets = await budgetRepo.find({
     select: {
+      id: true,
       period_id: true,
       amount: true,
     },
@@ -22,12 +23,14 @@ export const loadAllBudgets = async (id: number) => {
       period_en: true,
     },
   });
-  return periods.map((v) => {
+  return budgets.map((budget) => {
     return {
-      id: v.id,
-      period: v.period,
-      period_en: v.period_en,
-      amount: budgets.find((item) => item.period_id === v.id)?.amount ?? 0,
+      id: budget.id,
+      amount: budget.amount,
+      period:
+        periods.find((item) => budget.period_id === item.id)?.period ?? "",
+      period_en:
+        periods.find((item) => budget.period_id === item.id)?.period_en ?? "",
     };
   });
 };
