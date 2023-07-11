@@ -7,11 +7,6 @@ const periodRepo = dataSource.getRepository(Period);
 
 export const loadAllBudgets = async (id: number) => {
   const budgets = await budgetRepo.find({
-    select: {
-      id: true,
-      period_id: true,
-      amount: true,
-    },
     where: {
       user_id: id,
     },
@@ -31,6 +26,8 @@ export const loadAllBudgets = async (id: number) => {
         periods.find((item) => budget.period_id === item.id)?.period ?? "",
       period_en:
         periods.find((item) => budget.period_id === item.id)?.period_en ?? "",
+      created_at: budget.created_at,
+      updated_at: budget.updated_at,
     };
   });
 };
