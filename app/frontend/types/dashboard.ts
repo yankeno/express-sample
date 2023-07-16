@@ -2,6 +2,7 @@ export type BarGrapSeries = {
   name: string;
   data: Array<number>;
 };
+
 export type DashboardState = {
   pie_chart: {
     labels: Array<string>;

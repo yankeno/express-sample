@@ -32,7 +32,8 @@ export const upsert = async (req: express.Request, res: express.Response) => {
         period_id: v.period_id,
         amount: v.amount,
       };
-      if (v.id) {
+      // idが存在する場合はUPDATE、存在しない場合はINSERT
+      if (Number(v.id) > 0) {
         budgetObj = {
           id: v.id,
           ...budgetObj,
