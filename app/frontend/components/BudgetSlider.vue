@@ -412,6 +412,21 @@ export default Vue.extend({
         });
         return;
       }
+      if (
+        this.dateBudget > this.dateMax ||
+        this.weekBudget > this.weekMax ||
+        this.monthBudget > this.monthMax ||
+        this.threeMonthsBudget > this.threeMonthsMax ||
+        this.halfAMonthBudget > this.halfAYearMax ||
+        this.yearBudget > this.yearMax
+      ) {
+        this.$toast.open({
+          type: 'error',
+          message: '予算の保存に失敗しました。',
+          position: 'top',
+        });
+        return;
+      }
       const budgets: Array<BudgetRequest> = [
         {
           id: this.dateId,

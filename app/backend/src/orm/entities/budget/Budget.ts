@@ -24,6 +24,9 @@ export class Budget extends BaseEntity {
   })
   period: Period;
 
-  @Column()
+  @Column({
+    type: "int",
+    unsigned: true,
+  })
   amount: number;
 }
