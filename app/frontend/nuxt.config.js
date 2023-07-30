@@ -43,6 +43,7 @@ export default {
     '@nuxtjs/axios',
     '@nuxtjs/dotenv',
     '@nuxtjs/proxy',
+    '@nuxtjs/auth',
   ],
   // Axios module configuration: https://go.nuxtjs.dev/config-axios
   axios: {

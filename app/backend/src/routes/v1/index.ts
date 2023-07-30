@@ -6,6 +6,7 @@ import aggregate from "./aggregate";
 import category from "./category";
 import spending from "./spending";
 import budget from "./budget";
+import auth from "./auth";
 
 const router = Router();
 
@@ -15,5 +16,6 @@ router.use("/users", users);
 router.use("/category", category);
 router.use("/spending", spending);
 router.use("/budget", budget);
+router.use("/auth", auth);
 
 export default router;
