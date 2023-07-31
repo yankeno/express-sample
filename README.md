@@ -87,6 +87,23 @@ ORDER BY date ASC;
 
 できないようなので createQueryBuilder を使うしかない
 
+## Docker 起動時に環境変数が読み込まれない
+
+以下のような WARNING が出て、環境変数の読み込みに失敗する。
+
+```bash
+WARN[0000] The "BACKEND_PORT" variable is not set. Defaulting to a blank string.
+WARN[0000] The "FRONTEND_PORT" variable is not set. Defaulting to a blank string.
+WARN[0000] The "DB_PORT" variable is not set. Defaulting to a blank string.
+WARN[0000] The "MYSQL_ROOT_PASSWORD" variable is not set. Defaulting to a blank string.
+WARN[0000] The "TZ" variable is not set. Defaulting to a blank string.
+WARN[0000] The "MYSQL_DATABASE" variable is not set. Defaulting to a blank string.
+WARN[0000] The "MYSQL_USER" variable is not set. Defaulting to a blank string.
+WARN[0000] The "MYSQL_PASSWORD" variable is not set. Defaulting to a blank string.
+```
+
+プロジェクトルート以外で Docker を立ち上げた場合に、`docker-compose.yml`から`.env`が参照できずこのような現象が発生する。
+
 # 実装予定
 
 ## ダッシュボードで実装するグラフ

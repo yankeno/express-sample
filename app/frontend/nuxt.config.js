@@ -45,6 +45,27 @@ export default {
     '@nuxtjs/proxy',
     '@nuxtjs/auth',
   ],
+  auth: {
+    strategies: {
+      local: {
+        // token: {
+        //   property: 'token',
+        //   global: true,
+        // },
+        endpoints: {
+          login: {
+            url: '/api/auth/login',
+            method: 'post',
+            propertyName: 'token',
+          },
+          logout: { url: '/api/auth/logout', method: 'post' },
+          user: { url: '/api/auth/user', method: 'get', propertyName: 'user' },
+        },
+        tokenRequired: true,
+        tokenType: 'bearer',
+      },
+    },
+  },
   // Axios module configuration: https://go.nuxtjs.dev/config-axios
   axios: {
     // Workaround to avoid enforcing hard-coded localhost:3000: https://github.com/nuxt-community/axios-module/issues/308
@@ -72,6 +93,13 @@ export default {
     webpack: {
       ignored: /node_modules/,
       poll: true,
+    },
+  },
+
+  vue: {
+    config: {
+      productionTip: false,
+      devtools: true,
     },
   },
 };

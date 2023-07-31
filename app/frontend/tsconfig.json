@@ -15,6 +15,7 @@
       "@/*": ["./*"]
     },
     "types": [
+      "@nuxtjs/auth-next",
       "@nuxt/types",
       "@nuxt/typescript-build",
       "@types/node",
