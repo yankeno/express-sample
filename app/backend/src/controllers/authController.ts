@@ -12,11 +12,10 @@ const userRepo = dataSource.getRepository(User);
 export const login = async (req: express.Request, res: express.Response) => {
   try {
     const { email, password }: { email: string; password: string } = req.body;
-    console.log(email, password);
 
     const user = await userRepo.findOneOrFail({ where: { email: email } });
-
-    if (!bcrypt.compareSync(password, user.password)) {
+    if (!(await bcrypt.compare(password, user.password))) {
+      console.log("comparison fail");
       throw new Error();
     }
 
@@ -27,6 +26,7 @@ export const login = async (req: express.Request, res: express.Response) => {
         expiresIn: "1h",
       }
     );
+    console.log(token);
     return res.json({ user: { email: user.email, id: user.id }, token });
   } catch (error) {
     console.log(error);

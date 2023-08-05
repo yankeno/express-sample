@@ -26,10 +26,6 @@ export class User extends BaseEntity {
     return await bcrypt.compare(unencryptedPassword, this.password);
   }
 
-  async checkIfPasswordMatch(unencryptedPassword: string) {
-    return await bcrypt.compareSync(unencryptedPassword, this.password);
-  }
-
   @OneToMany(() => Spending, (spending) => spending.user)
   spendings: Spending[];
 

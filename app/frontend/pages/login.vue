@@ -7,16 +7,17 @@
       <h2 class="font-weight-bold text-center mb-4">ログイン</h2>
       <label for="email" class="font-weight-bold mt-5">ユーザー名</label>
       <b-form-input
-        v-bind="email"
         id="email"
+        v-model="email"
+        type="text"
         class="w-100"
         placeholder="ユーザー名を入力"
         size="lg"
       ></b-form-input>
       <label for="password" class="font-weight-bold mt-5">パスワード</label>
       <b-form-input
-        v-bind="password"
         id="password"
+        v-model="password"
         type="password"
         class="w-100"
         placeholder="パスワードを入力"
@@ -31,9 +32,9 @@
           >ログイン</b-button
         >
       </div>
-      <p class="text-center mt-3">
+      <div class="text-center mt-3">
         <nav><nuxt-link to="/register">新規登録</nuxt-link></nav>
-      </p>
+      </div>
     </b-form>
   </v-card>
 </template>
@@ -59,7 +60,16 @@ export default Vue.extend({
   methods: {
     async userLogin() {
       // await this.$axios.$post('/api/auth/login', {email: this.email, password: this.password});
-      const response = await this.$auth.loginWith('local', {params: {email: this.email, password: this.password}});
+      const response = await this.$auth
+        .loginWith('local', {
+          data: { email: this.email, password: this.password },
+        })
+        .then((data) => {
+          console.log(data);
+        })
+        .catch((error) => {
+          console.log(error);
+        });
     },
   },
 });
