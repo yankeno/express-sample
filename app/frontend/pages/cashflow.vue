@@ -14,6 +14,7 @@ export default Vue.extend({
   components: {
     CashflowTable,
   },
+  middleware: 'auth',
   head: {
     title: '家計簿',
   },

@@ -14,6 +14,7 @@ export default Vue.extend({
   components: {
     BudgetSlider,
   },
+  middleware: 'auth',
   head: {
     title: '予算管理',
   },

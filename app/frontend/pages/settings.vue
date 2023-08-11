@@ -7,8 +7,9 @@
 
 export default {
   name: 'SettingsPage',
+  middleware: 'auth',
   head: {
     title: '設定',
   },
-}
+};
 </script>

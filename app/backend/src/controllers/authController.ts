@@ -15,7 +15,6 @@ export const login = async (req: express.Request, res: express.Response) => {
 
     const user = await userRepo.findOneOrFail({ where: { email: email } });
     if (!(await bcrypt.compare(password, user.password))) {
-      console.log("comparison fail");
       throw new Error();
     }
 
@@ -26,7 +25,6 @@ export const login = async (req: express.Request, res: express.Response) => {
         expiresIn: "1h",
       }
     );
-    console.log(token);
     return res.json({ user: { email: user.email, id: user.id }, token });
   } catch (error) {
     console.log(error);
@@ -44,7 +42,7 @@ export const register = async (req: express.Request, res: express.Response) => {
     }
     const { name, email, password } = req.body;
     const userExists = await userRepo.findOne({ where: { email } });
-    if (userExists) throw new Error("Email already exists");
+    if (userExists) throw new Error("Account already exists");
 
     let user = {
       name,
@@ -56,5 +54,26 @@ export const register = async (req: express.Request, res: express.Response) => {
   } catch (error: any) {
     console.log(error);
     return res.status(409).send({ message: error.message });
+  }
+};
+
+export const user = async (req: express.Request, res: express.Response) => {
+  const authHeader = req.headers.authorization;
+  console.log(authHeader);
+  if (!authHeader || !authHeader.startsWith("bearer ")) {
+    return res.status(401).send("Unauthorized");
+  }
+
+  const token = authHeader.split(" ")[1];
+  try {
+    const decoded: any = jwt.verify(
+      token,
+      jwt_secret_key ? jwt_secret_key : ""
+    );
+    const user = await userRepo.findOneOrFail({ where: { id: decoded.id } });
+    console.log(user);
+    return res.json({ email: user.email, id: user.id });
+  } catch (error) {
+    return res.status(401).send("Invalid token or user not found");
   }
 };

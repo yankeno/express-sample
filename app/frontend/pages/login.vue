@@ -59,17 +59,13 @@ export default Vue.extend({
   },
   methods: {
     async userLogin() {
-      // await this.$axios.$post('/api/auth/login', {email: this.email, password: this.password});
-      const response = await this.$auth
-        .loginWith('local', {
+      try {
+        await this.$auth.loginWith('local', {
           data: { email: this.email, password: this.password },
-        })
-        .then((data) => {
-          console.log(data);
-        })
-        .catch((error) => {
-          console.log(error);
         });
+      } catch (error) {
+        console.log('Failed to login', error);
+      }
     },
   },
 });

@@ -46,12 +46,13 @@ export default {
     '@nuxtjs/auth',
   ],
   auth: {
+    redirect: {
+      login: '/login',
+      logout: '/login',
+      home: '/',
+    },
     strategies: {
       local: {
-        // token: {
-        //   property: 'token',
-        //   global: true,
-        // },
         endpoints: {
           login: {
             url: '/api/auth/login',
@@ -59,7 +60,8 @@ export default {
             propertyName: 'token',
           },
           logout: { url: '/api/auth/logout', method: 'post' },
-          user: { url: '/api/auth/user', method: 'get', propertyName: 'user' },
+          user: { url: '/api/auth/user', method: 'get', propertyName: false },
+          // user: false,
         },
         tokenRequired: true,
         tokenType: 'bearer',

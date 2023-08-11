@@ -19,6 +19,7 @@ export default Vue.extend({
     PieChartSection,
     BarGraphSection,
   },
+  middleware: 'auth',
   head: {
     title: 'TOP',
   },
