@@ -6,7 +6,7 @@ import { User } from "~/orm/entities/user/User";
 import { jwt_secret_key } from "~/orm/config/auth";
 import { plainToInstance } from "class-transformer";
 import { validationResult } from "express-validator";
-
+console.log(jwt_secret_key);
 const userRepo = dataSource.getRepository(User);
 
 export const login = async (req: express.Request, res: express.Response) => {
@@ -22,7 +22,7 @@ export const login = async (req: express.Request, res: express.Response) => {
       { id: user.id, email: user.email },
       jwt_secret_key ? jwt_secret_key : "",
       {
-        expiresIn: "1h",
+        expiresIn: "10m",
       }
     );
     return res.json({ user: { email: user.email, id: user.id }, token });
@@ -31,8 +31,6 @@ export const login = async (req: express.Request, res: express.Response) => {
     return res.status(401).send("Email or password is incorrect");
   }
 };
-
-export const logout = async (req: express.Request, res: express.Response) => {};
 
 export const register = async (req: express.Request, res: express.Response) => {
   try {
@@ -59,7 +57,6 @@ export const register = async (req: express.Request, res: express.Response) => {
 
 export const user = async (req: express.Request, res: express.Response) => {
   const authHeader = req.headers.authorization;
-  console.log(authHeader);
   if (!authHeader || !authHeader.startsWith("bearer ")) {
     return res.status(401).send("Unauthorized");
   }

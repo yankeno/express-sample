@@ -23,6 +23,9 @@
         placeholder="パスワードを入力"
         size="lg"
       ></b-form-input>
+      <p v-if="loginFailed" class="pt-2 text-danger position-absolute">
+        ユーザー名またはパスワードが間違っています
+      </p>
       <div class="w-100 text-center">
         <b-button
           type="submit"
@@ -52,6 +55,7 @@ export default Vue.extend({
     return {
       email: '',
       password: '',
+      loginFailed: false,
     };
   },
   head: {
@@ -64,6 +68,7 @@ export default Vue.extend({
           data: { email: this.email, password: this.password },
         });
       } catch (error) {
+        this.loginFailed = true;
         console.log('Failed to login', error);
       }
     },
@@ -74,7 +79,7 @@ export default Vue.extend({
 <style scoped>
 #section {
   width: 500px;
-  padding: 50px 70px;
+  padding: 50px 80px;
   position: absolute;
   top: 50%;
   left: 50%;

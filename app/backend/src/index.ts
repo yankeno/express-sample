@@ -1,7 +1,7 @@
+import "dotenv/config";
 require("module-alias/register");
 import express from "express";
 import routes from "./routes";
-import "dotenv/config";
 import { connectMysql } from "./orm/dbCreateConnection";
 import "reflect-metadata";
 
@@ -15,4 +15,5 @@ const port: string = process.env.PORT || "3000";
 app.listen(port, () => {
   connectMysql();
   console.log(`Server running on port ${port}`);
+  console.log("Environment variables", process.env);
 });

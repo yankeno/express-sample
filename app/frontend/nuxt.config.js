@@ -59,7 +59,7 @@ export default {
             method: 'post',
             propertyName: 'token',
           },
-          logout: { url: '/api/auth/logout', method: 'post' },
+          logout: false,
           user: { url: '/api/auth/user', method: 'get', propertyName: false },
           // user: false,
         },

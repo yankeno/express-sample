@@ -1,11 +1,10 @@
 import express from "express";
-import { login, logout, register, user } from "~/controllers/authController";
+import { login, register, user } from "~/controllers/authController";
 import { check } from "express-validator";
 
 const router = express.Router();
 
 router.post("/login", login);
-router.post("/logout", logout);
 router.post(
   "/register",
   [
