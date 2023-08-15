@@ -5,13 +5,13 @@
     </div>
     <b-form @submit.prevent="userLogin">
       <h2 class="font-weight-bold text-center mb-4">ログイン</h2>
-      <label for="email" class="font-weight-bold mt-5">ユーザー名</label>
+      <label for="email" class="font-weight-bold mt-5">メールアドレス</label>
       <b-form-input
         id="email"
         v-model="email"
         type="text"
         class="w-100"
-        placeholder="ユーザー名を入力"
+        placeholder="メールアドレスを入力"
         size="lg"
       ></b-form-input>
       <label for="password" class="font-weight-bold mt-5">パスワード</label>

@@ -42,7 +42,7 @@ export const register = async (req: express.Request, res: express.Response) => {
     const userExists = await userRepo.findOne({ where: { email } });
     if (userExists) throw new Error("Account already exists");
 
-    let user = {
+    const user = {
       name,
       email,
       password,
