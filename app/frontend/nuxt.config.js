@@ -23,6 +23,7 @@ export default {
     { src: '@/plugins/vuetify', ssr: false },
     { src: '@/plugins/vue-toast-notification', ssr: false },
     { src: '@/plugins/vue-slider-component', ssr: false },
+    { src: '~/plugins/vee-validate', ssr: false },
   ],
 
   // Auto import components: https://go.nuxtjs.dev/config-components
