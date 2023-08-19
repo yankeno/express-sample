@@ -54,15 +54,28 @@ export default {
     },
     strategies: {
       local: {
+        token: {
+          property: 'accessToken',
+          maxAge: 60 * 3,
+        },
+        refreshToken: {
+          property: 'refreshToken',
+          data: 'refreshToken',
+          maxAge: 60 * 60 * 24 * 30,
+        },
         endpoints: {
           login: {
             url: '/api/auth/login',
             method: 'post',
-            propertyName: 'token',
+            propertyName: 'accessToken',
           },
           logout: false,
-          user: { url: '/api/auth/user', method: 'get', propertyName: false },
-          // user: false,
+          refresh: {
+            url: '/api/auth/refresh',
+            method: 'post',
+            propertyName: 'accessToken',
+          },
+          user: { url: '/api/auth/user', method: 'get', propertyName: 'user' },
         },
         tokenRequired: true,
         tokenType: 'bearer',

@@ -1,5 +1,5 @@
 import express from "express";
-import { login, register, user } from "~/controllers/authController";
+import { login, register, refresh, user } from "~/controllers/authController";
 import { check } from "express-validator";
 
 const router = express.Router();
@@ -14,6 +14,7 @@ router.post(
   ],
   register
 );
+router.post("/refresh", refresh);
 router.get("/user", user);
 
 export default router;

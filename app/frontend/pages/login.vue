@@ -51,6 +51,7 @@ export default Vue.extend({
   components: {
     LoginIcon,
   },
+  middleware: 'redirect-if-authenticated',
   data() {
     return {
       email: '',
