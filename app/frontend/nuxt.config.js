@@ -44,7 +44,7 @@ export default {
     '@nuxtjs/axios',
     '@nuxtjs/dotenv',
     '@nuxtjs/proxy',
-    '@nuxtjs/auth',
+    '@nuxtjs/auth-next',
   ],
   auth: {
     redirect: {
@@ -54,14 +54,15 @@ export default {
     },
     strategies: {
       local: {
+        scheme: 'refresh',
         token: {
           property: 'accessToken',
-          maxAge: 60 * 3,
+          maxAge: 60 * 30,
         },
         refreshToken: {
           property: 'refreshToken',
           data: 'refreshToken',
-          maxAge: 60 * 60 * 24 * 30,
+          maxAge: 60 * 60 * 24 * 7,
         },
         endpoints: {
           login: {
@@ -78,7 +79,7 @@ export default {
           user: { url: '/api/auth/user', method: 'get', propertyName: 'user' },
         },
         tokenRequired: true,
-        tokenType: 'bearer',
+        tokenType: 'JWT',
       },
     },
   },

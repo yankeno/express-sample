@@ -104,6 +104,8 @@ WARN[0000] The "MYSQL_PASSWORD" variable is not set. Defaulting to a blank strin
 
 プロジェクトルート以外で Docker を立ち上げた場合に、`docker-compose.yml`から`.env`が参照できずこのような現象が発生する。
 
+## ログイン後にリロードするとログイン画面に遷移する
+
 # 実装予定
 
 ## ダッシュボードで実装するグラフ

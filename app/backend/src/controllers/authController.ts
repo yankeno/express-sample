@@ -13,7 +13,7 @@ const userRepo = dataSource.getRepository(User);
 export const login = async (req: express.Request, res: express.Response) => {
   try {
     const { email, password }: { email: string; password: string } = req.body;
-    console.log(jwt_secret_key, jwt_refresh_key);
+    console.log(req.body);
     const user = await userRepo.findOneOrFail({ where: { email: email } });
     if (!(await bcrypt.compare(password, user.password))) {
       throw new Error();
@@ -30,13 +30,13 @@ export const login = async (req: express.Request, res: express.Response) => {
       { id: user.id, email: user.email },
       jwt_refresh_key ? jwt_refresh_key : "",
       {
-        expiresIn: expiresInAccessToken,
+        expiresIn: expiresInRefreshToken,
       }
     );
     return res.json({
       user: { email: user.email, id: user.id },
-      accessToken,
-      refreshToken,
+      accessToken: accessToken,
+      refreshToken: refreshToken,
     });
   } catch (error) {
     console.log(error);
@@ -45,12 +45,13 @@ export const login = async (req: express.Request, res: express.Response) => {
 };
 
 export const refresh = async (req: express.Request, res: express.Response) => {
+  console.log("token refresh");
   const { refreshToken } = req.body;
   if (!refreshToken) return res.status(400).send("No token provided");
 
   let decoded: any;
   try {
-    decoded = jwt.verify(refreshToken, jwt_secret_key ? jwt_secret_key : "");
+    decoded = jwt.verify(refreshToken, jwt_refresh_key ? jwt_refresh_key : "");
   } catch (error) {
     return res.status(401).send("Invalid token");
   }
@@ -88,7 +89,7 @@ export const register = async (req: express.Request, res: express.Response) => {
 
 export const user = async (req: express.Request, res: express.Response) => {
   const authHeader = req.headers.authorization;
-  if (!authHeader || !authHeader.startsWith("bearer ")) {
+  if (!authHeader || !authHeader.startsWith("Bearer ")) {
     return res.status(401).send("Unauthorized");
   }
 
