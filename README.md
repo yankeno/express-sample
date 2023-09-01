@@ -104,7 +104,57 @@ WARN[0000] The "MYSQL_PASSWORD" variable is not set. Defaulting to a blank strin
 
 プロジェクトルート以外で Docker を立ち上げた場合に、`docker-compose.yml`から`.env`が参照できずこのような現象が発生する。
 
+## ログインが成功しているがリフレッシュトークンが自動的に設定されない
+
+nuxt.config.js の設定不備
+
+```javascript
+  auth: {
+    redirect: {
+      login: '/login',
+      logout: '/login',
+      home: '/',
+    },
+    strategies: {
+      local: {
+        scheme: 'refresh', // <- ここの設定が必要
+        token: {
+          property: 'accessToken',
+          maxAge: 60 * 30,
+        },
+        refreshToken: {
+          property: 'refreshToken',
+          data: 'refreshToken',
+          maxAge: 60 * 60 * 24 * 7,
+        },
+        endpoints: {
+          login: {
+            url: '/api/auth/login',
+            method: 'post',
+            propertyName: 'accessToken',
+          },
+          logout: false,
+          refresh: {
+            url: '/api/auth/refresh',
+            method: 'post',
+            propertyName: 'accessToken',
+          },
+          user: { url: '/api/auth/user', method: 'get', propertyName: 'user' },
+        },
+        tokenRequired: true,
+        tokenType: 'JWT',
+      },
+    },
+  },
+```
+
 ## ログイン後にリロードするとログイン画面に遷移する
+
+色々と調べたが結局わからず。
+
+- [Redirected to login after refreshing any protected page](https://github.com/nuxt-community/auth-module/discussions/1518)
+- [user always redirected to login on refresh in nuxt.js auth](https://ja.wikipedia.org/wiki/%E7%99%BD%E9%B3%A5%E7%94%B1%E6%A0%84)
+- [@nuxtjs/auth Why refresh page always redirect to login](https://stackoverflow.com/questions/58917958/nuxtjs-auth-why-refresh-page-always-redirect-to-login)
 
 # 実装予定
 
@@ -114,8 +164,6 @@ WARN[0000] The "MYSQL_PASSWORD" variable is not set. Defaulting to a blank strin
 - 支出の額を時系列で表示する棒グラフ
   - 表示範囲はカレンダーで選択可能とする
   - 週ごと、月ごとで表示可能とする
-
-# 使用ライブラリ
 
 # 参考 URL
 

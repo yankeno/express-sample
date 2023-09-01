@@ -23,7 +23,7 @@ export default {
     { src: '@/plugins/vuetify', ssr: false },
     { src: '@/plugins/vue-toast-notification', ssr: false },
     { src: '@/plugins/vue-slider-component', ssr: false },
-    { src: '~/plugins/vee-validate', ssr: false },
+    { src: '@/plugins/vee-validate', ssr: false },
   ],
 
   // Auto import components: https://go.nuxtjs.dev/config-components
@@ -78,17 +78,29 @@ export default {
           },
           user: { url: '/api/auth/user', method: 'get', propertyName: 'user' },
         },
+        user: {
+          property: 'user',
+          autoFetch: true,
+        },
         tokenRequired: true,
-        tokenType: 'JWT',
+        tokenType: 'Bearer',
+      },
+      cookie: {
+        property: 'auth._token.local',
+        type: 'Bearer',
+        options: {
+          secure: false,
+        },
       },
     },
   },
   // Axios module configuration: https://go.nuxtjs.dev/config-axios
   axios: {
     // Workaround to avoid enforcing hard-coded localhost:3000: https://github.com/nuxt-community/axios-module/issues/308
-    // baseURL: 'http://localhost:3000/v1',
+    baseURL: process.env.API_URL,
+    debug: process.env.NODE_ENV && process.env.NODE_ENV === 'development',
     proxy: true,
-    credentials: false,
+    credentials: true,
   },
 
   // Build Configuration: https://go.nuxtjs.dev/config-build
@@ -100,7 +112,7 @@ export default {
 
   proxy: {
     '/api/': {
-      target: `${process.env.API_URL}`,
+      target: process.env.API_URL,
       pathRewrite: { '^/api/': `/${process.env.API_VERSION}/` },
       changeOrigin: true,
     },
