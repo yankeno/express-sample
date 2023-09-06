@@ -2,14 +2,16 @@
   <div>
     <period-button @toggleTerm="toggle" />
     <no-ssr placeholder="Loading...">
-      <ApexChart
-        v-if="graphSeries.length"
-        :options="graphOptions"
-        :series="graphSeries"
-        type="bar"
-        height="350"
-        width="90%"
-      ></ApexChart>
+      <div v-if="graphSeries[0]?.data?.length">
+        <ApexChart
+          :options="graphOptions"
+          :series="graphSeries"
+          type="bar"
+          height="350"
+          width="90%"
+        ></ApexChart>
+      </div>
+      <div v-else>期間内の支出はありません</div>
     </no-ssr>
   </div>
 </template>
@@ -30,7 +32,7 @@ export default Vue.extend({
       bar_graph_series: 'bar_graph_series',
       bar_graph_options: 'bar_graph_options',
     }),
-    graphSeries(): Array<string> {
+    graphSeries(): Array<BarGrapSeries> {
       return JSON.parse(JSON.stringify(this.bar_graph_series));
     },
     graphOptions(): any {
@@ -38,30 +40,37 @@ export default Vue.extend({
     },
   },
   async mounted() {
-    await this.$store.dispatch('spending/load_bar_graph_date');
-    await this.$store.dispatch('spending/load_bar_graph_week');
-    await this.$store.dispatch('spending/load_bar_graph_month');
+    try {
+      await this.$store.dispatch('spending/load_bar_graph_date');
+      await this.$store.dispatch('spending/load_bar_graph_week');
+      await this.$store.dispatch('spending/load_bar_graph_month');
 
-    const labels = await this.$store.getters[
-      'spending/get_bar_graph_date_labels'
-    ];
-    const series: Array<BarGrapSeries> = JSON.parse(
-      JSON.stringify(
-        await this.$store.getters['spending/get_bar_graph_date_series']
-      )
-    );
-    const originalOptions = JSON.parse(JSON.stringify(this.bar_graph_options));
-    const chartOptions: any = {
-      ...originalOptions,
-      xaxis: {
-        ...originalOptions.xaxis,
-        categories: labels,
-      },
-    };
+      const labels = await this.$store.getters[
+        'spending/get_bar_graph_date_labels'
+      ];
+      const series: Array<BarGrapSeries> = JSON.parse(
+        JSON.stringify(
+          await this.$store.getters['spending/get_bar_graph_date_series']
+        )
+      );
+      const originalOptions = JSON.parse(
+        JSON.stringify(this.bar_graph_options)
+      );
+      const chartOptions: any = {
+        ...originalOptions,
+        xaxis: {
+          ...originalOptions.xaxis,
+          categories: labels,
+        },
+      };
 
-    const newChartOptions = JSON.parse(JSON.stringify(chartOptions));
-    this.$store.commit('spending/set_bar_graph_options', newChartOptions);
-    this.$store.commit('spending/set_bar_graph_series', series);
+      const newChartOptions = JSON.parse(JSON.stringify(chartOptions));
+      this.$store.commit('spending/set_bar_graph_options', newChartOptions);
+      this.$store.commit('spending/set_bar_graph_series', series);
+    } catch (error: any) {
+      console.error(e.message);
+      this.$router.push('/404');
+    }
   },
   methods: {
     toggle(term: string) {

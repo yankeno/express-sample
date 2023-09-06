@@ -285,36 +285,45 @@ export default Vue.extend({
   },
 
   async created() {
-    const response = await this.$axios.get(`/api/budget?id=${1}`);
-    const budgets: Array<BudgetResponse> = response.data.data;
-    budgets.forEach((budget) => {
-      switch (budget.period_en) {
-        case PERIOD_EN.day:
-          this.dateBudget = budget.amount;
-          this.dateId = budget.id;
-          break;
-        case PERIOD_EN.week:
-          this.weekBudget = budget.amount;
-          this.weekId = budget.id;
-          break;
-        case PERIOD_EN.month:
-          this.monthBudget = budget.amount;
-          this.monthId = budget.id;
-          break;
-        case PERIOD_EN.three_month:
-          this.threeMonthsBudget = budget.amount;
-          this.threeMonthId = budget.id;
-          break;
-        case PERIOD_EN.half_a_year:
-          this.halfAMonthBudget = budget.amount;
-          this.halfAMonthId = budget.id;
-          break;
-        case PERIOD_EN.year:
-          this.yearBudget = budget.amount;
-          this.yearId = budget.id;
-          break;
+    try {
+      const userId = this.$auth?.user?.id;
+      if (!userId) {
+        throw new Error('Unauthorized');
       }
-    });
+      const response = await this.$axios.get(`/api/budget?id=${userId}`);
+      const budgets: Array<BudgetResponse> = response.data.data;
+      budgets.forEach((budget) => {
+        switch (budget.period_en) {
+          case PERIOD_EN.day:
+            this.dateBudget = budget.amount;
+            this.dateId = budget.id;
+            break;
+          case PERIOD_EN.week:
+            this.weekBudget = budget.amount;
+            this.weekId = budget.id;
+            break;
+          case PERIOD_EN.month:
+            this.monthBudget = budget.amount;
+            this.monthId = budget.id;
+            break;
+          case PERIOD_EN.three_month:
+            this.threeMonthsBudget = budget.amount;
+            this.threeMonthId = budget.id;
+            break;
+          case PERIOD_EN.half_a_year:
+            this.halfAMonthBudget = budget.amount;
+            this.halfAMonthId = budget.id;
+            break;
+          case PERIOD_EN.year:
+            this.yearBudget = budget.amount;
+            this.yearId = budget.id;
+            break;
+        }
+      });
+    } catch (error: any) {
+      console.error(error.message);
+      this.$router.push('/404');
+    }
   },
   methods: {
     dateError(type: number) {
@@ -396,94 +405,102 @@ export default Vue.extend({
       this.yearErrorMsg = '';
     },
     async submitBudgets() {
-      const tempUserId = 1 as const;
-      if (
-        this.dateErrorMsg ||
-        this.weekErrorMsg ||
-        this.monthErrorMsg ||
-        this.threeMonthsErrorMsg ||
-        this.halfAMonthErrorMsg ||
-        this.yearErrorMsg
-      ) {
-        this.$toast.open({
-          type: 'error',
-          message: '予算の保存に失敗しました。',
-          position: 'top',
-        });
-        return;
-      }
-      if (
-        this.dateBudget > this.dateMax ||
-        this.weekBudget > this.weekMax ||
-        this.monthBudget > this.monthMax ||
-        this.threeMonthsBudget > this.threeMonthsMax ||
-        this.halfAMonthBudget > this.halfAYearMax ||
-        this.yearBudget > this.yearMax
-      ) {
-        this.$toast.open({
-          type: 'error',
-          message: '予算の保存に失敗しました。',
-          position: 'top',
-        });
-        return;
-      }
-      const budgets: Array<BudgetRequest> = [
-        {
-          id: this.dateId,
-          user_id: tempUserId,
-          period_id: PERIOD_ID.day,
-          amount: this.dateBudget,
-        },
-        {
-          id: this.weekId,
-          user_id: tempUserId,
-          period_id: PERIOD_ID.week,
-          amount: this.weekBudget,
-        },
-        {
-          id: this.monthId,
-          user_id: tempUserId,
-          period_id: PERIOD_ID.month,
-          amount: this.monthBudget,
-        },
-        {
-          id: this.threeMonthId,
-          user_id: tempUserId,
-          period_id: PERIOD_ID.three_month,
-          amount: this.threeMonthsBudget,
-        },
-        {
-          id: this.halfAMonthId,
-          user_id: tempUserId,
-          period_id: PERIOD_ID.half_a_year,
-          amount: this.halfAMonthBudget,
-        },
-        {
-          id: this.yearId,
-          user_id: tempUserId,
-          period_id: PERIOD_ID.year,
-          amount: this.yearBudget,
-        },
-      ];
-      await this.$axios
-        .post(`/api/budget/upsert?id=${1}`, budgets)
-        .then((res) => {
-          if (res.status !== 200) {
-            throw new Error('Bad request');
-          }
-          this.$toast.open({
-            message: '予算を保存しました。',
-            position: 'top',
-          });
-        })
-        .catch((e) => {
+      try {
+        const userId = this.$auth?.user?.id;
+        if (!userId) {
+          throw new Error('Unauthorized');
+        }
+        if (
+          this.dateErrorMsg ||
+          this.weekErrorMsg ||
+          this.monthErrorMsg ||
+          this.threeMonthsErrorMsg ||
+          this.halfAMonthErrorMsg ||
+          this.yearErrorMsg
+        ) {
           this.$toast.open({
             type: 'error',
             message: '予算の保存に失敗しました。',
             position: 'top',
           });
-          console.error(e);
-        });
+          return;
+        }
+        if (
+          this.dateBudget > this.dateMax ||
+          this.weekBudget > this.weekMax ||
+          this.monthBudget > this.monthMax ||
+          this.threeMonthsBudget > this.threeMonthsMax ||
+          this.halfAMonthBudget > this.halfAYearMax ||
+          this.yearBudget > this.yearMax
+        ) {
+          this.$toast.open({
+            type: 'error',
+            message: '予算の保存に失敗しました。',
+            position: 'top',
+          });
+          return;
+        }
+        const budgets: Array<BudgetRequest> = [
+          {
+            id: this.dateId,
+            user_id: userId,
+            period_id: PERIOD_ID.day,
+            amount: this.dateBudget,
+          },
+          {
+            id: this.weekId,
+            user_id: userId,
+            period_id: PERIOD_ID.week,
+            amount: this.weekBudget,
+          },
+          {
+            id: this.monthId,
+            user_id: userId,
+            period_id: PERIOD_ID.month,
+            amount: this.monthBudget,
+          },
+          {
+            id: this.threeMonthId,
+            user_id: userId,
+            period_id: PERIOD_ID.three_month,
+            amount: this.threeMonthsBudget,
+          },
+          {
+            id: this.halfAMonthId,
+            user_id: userId,
+            period_id: PERIOD_ID.half_a_year,
+            amount: this.halfAMonthBudget,
+          },
+          {
+            id: this.yearId,
+            user_id: userId,
+            period_id: PERIOD_ID.year,
+            amount: this.yearBudget,
+          },
+        ];
+        await this.$axios
+          .post(`/api/budget/upsert?id=${userId}`, budgets)
+          .then((res) => {
+            if (res.status !== 200) {
+              throw new Error('Bad request');
+            }
+            this.$toast.open({
+              message: '予算を保存しました。',
+              position: 'top',
+            });
+          })
+          .catch((e) => {
+            this.$toast.open({
+              type: 'error',
+              message: '予算の保存に失敗しました。',
+              position: 'top',
+            });
+            console.error(e);
+          });
+      } catch (error: any) {
+        console.error(error.message);
+        this.$router.push('/404');
+      }
     },
   },
 });

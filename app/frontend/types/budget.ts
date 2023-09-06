@@ -9,7 +9,7 @@ export type BudgetResponse = {
 
 export type BudgetRequest = {
   id: Number | undefined;
-  user_id: Number;
+  user_id: Number | unknown;
   period_id: Number;
   amount: Number;
 };

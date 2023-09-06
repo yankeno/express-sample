@@ -173,42 +173,46 @@ export const mutations: MutationTree<DashboardState> = {
 
 export const actions: ActionTree<DashboardState, DashboardState> = {
   async load_pie_chart({ commit }, term) {
+    const userId = this.$auth?.user?.id;
     const from: string = term
       ? term.from
       : format(startOfMonth(new Date()), 'yyyy-MM-dd');
     const to: string = term ? term.to : format(new Date(), 'yyyy-MM-dd');
     const response = await this.$axios.$get(
-      `/api/aggregate/category?id=1&from=${from}&to=${to}`
+      `/api/aggregate/category?id=${userId}&from=${from}&to=${to}`
     );
     commit('set_pie_chart', response.data);
   },
   async load_bar_graph_date({ commit }, term) {
+    const userId = this.$auth?.user?.id;
     const from: string = term
       ? term.from
       : format(startOfMonth(new Date()), 'yyyy-MM-dd');
     const to: string = term ? term.to : format(new Date(), 'yyyy-MM-dd');
     const response = await this.$axios.$get(
-      `/api/aggregate/date?id=1&from=${from}&to=${to}`
+      `/api/aggregate/date?id=${userId}&from=${from}&to=${to}`
     );
     commit('set_bar_graph_date', response.data);
   },
   async load_bar_graph_week({ commit }, term) {
+    const userId = this.$auth?.user?.id;
     const from = term
       ? term.from
       : format(startOfMonth(subMonths(new Date(), 3)), 'yyyy-MM-dd'); // 3ヶ月前の月初
     const to: string = term ? term.to : format(new Date(), 'yyyy-MM-dd');
     const response = await this.$axios.$get(
-      `/api/aggregate/week?id=1&from=${from}&to=${to}`
+      `/api/aggregate/week?id=${userId}&from=${from}&to=${to}`
     );
     commit('set_bar_graph_week', response.data);
   },
   async load_bar_graph_month({ commit }, term) {
+    const userId = this.$auth?.user?.id;
     const from = term
       ? term.from
       : format(startOfMonth(subMonths(new Date(), 6)), 'yyyy-MM-dd'); // 6ヶ月前の月初
     const to: string = term ? term.to : format(new Date(), 'yyyy-MM-dd');
     const response = await this.$axios.$get(
-      `/api/aggregate/month?id=1&from=${from}&to=${to}`
+      `/api/aggregate/month?id=${userId}&from=${from}&to=${to}`
     );
     commit('set_bar_graph_month', response.data);
   },

@@ -102,40 +102,46 @@ export default Vue.extend({
   },
   methods: {
     async submitSpending() {
-      await this.$axios
-        .post('/api/spending/create', {
-          user_id: 1,
-          category_id: this.selectedChild,
-          date: this.date,
-          price: this.price,
-          comment: this.comment,
-        })
-        .then((res) => {
-          if (res.status !== 200) {
-            throw new Error('Bad request');
-          }
-          this.$toast.open({
-            message: '支出を登録しました。',
-            position: 'top',
+      try {
+        const userId = this.$auth?.user?.id;
+        await this.$axios
+          .post('/api/spending/create', {
+            user_id: userId,
+            category_id: this.selectedChild,
+            date: this.date,
+            price: this.price,
+            comment: this.comment,
+          })
+          .then((res) => {
+            if (res.status !== 200) {
+              throw new Error('Bad request');
+            }
+            this.$toast.open({
+              message: '支出を登録しました。',
+              position: 'top',
+            });
+            this.selectedParent = null;
+            this.selectedChild = null;
+            this.price = null;
+            this.comment = null;
+            this.date = new Date(
+              Date.now() - new Date().getTimezoneOffset() * 60000
+            )
+              .toISOString()
+              .substring(0, 10);
+          })
+          .catch((e) => {
+            this.$toast.open({
+              type: 'error',
+              message: '支出の登録に失敗しました。',
+              position: 'top',
+            });
+            console.error(e);
           });
-          this.selectedParent = null;
-          this.selectedChild = null;
-          this.price = null;
-          this.comment = null;
-          this.date = new Date(
-            Date.now() - new Date().getTimezoneOffset() * 60000
-          )
-            .toISOString()
-            .substring(0, 10);
-        })
-        .catch((e) => {
-          this.$toast.open({
-            type: 'error',
-            message: '支出の登録に失敗しました。',
-            position: 'top',
-          });
-          console.error(e);
-        });
+      } catch (error: any) {
+        console.error(error.message);
+        this.$router.push('/404');
+      }
     },
   },
 });

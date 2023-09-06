@@ -2,12 +2,14 @@
   <div>
     <no-ssr placeholder="Loading...">
       <!-- labelsの設定よりレンダリングが先行するためv-ifで遅延させる -->
-      <ApexChart
-        v-if="series.length"
-        :options="chartOptions"
-        :series="series"
-        width="90%"
-      ></ApexChart>
+      <div v-if="series.length">
+        <ApexChart
+          :options="chartOptions"
+          :series="series"
+          width="90%"
+        ></ApexChart>
+      </div>
+      <div v-else>今月の支出はありません</div>
     </no-ssr>
   </div>
 </template>
@@ -35,10 +37,15 @@ export default Vue.extend({
     };
   },
   async mounted() {
-    await this.$store.dispatch('spending/load_pie_chart');
-    this.chartOptions.labels =
-      this.$store.getters['spending/get_pie_chart_labels'];
-    this.series = this.$store.getters['spending/get_pie_chart_series'];
+    try {
+      await this.$store.dispatch('spending/load_pie_chart');
+      this.chartOptions.labels =
+        this.$store.getters['spending/get_pie_chart_labels'];
+      this.series = this.$store.getters['spending/get_pie_chart_series'];
+    } catch (error: any) {
+      console.error(error.message);
+      this.$router.push('/404');
+    }
   },
 });
 </script>
