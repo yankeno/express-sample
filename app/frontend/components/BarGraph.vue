@@ -68,7 +68,7 @@ export default Vue.extend({
       this.$store.commit('spending/set_bar_graph_options', newChartOptions);
       this.$store.commit('spending/set_bar_graph_series', series);
     } catch (error: any) {
-      console.error(e.message);
+      console.error(error.message);
       this.$router.push('/404');
     }
   },

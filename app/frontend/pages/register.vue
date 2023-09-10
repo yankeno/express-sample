@@ -100,6 +100,9 @@
             >登録する</b-button
           >
         </div>
+        <div class="text-center mt-3">
+          <nav><nuxt-link to="/login">ログイン</nuxt-link></nav>
+        </div>
       </b-form>
     </ValidationObserver>
   </v-card>
@@ -152,8 +155,26 @@ export default Vue.extend({
     title: 'ユーザー登録',
   },
   methods: {
-    registerUser() {
-      alert('登録');
+    async registerUser() {
+      try {
+        await this.$axios.$post('/api/auth/register', {
+          name: this.name,
+          email: this.email,
+          password: this.password,
+        });
+        this.$router.push('/login');
+        this.$toast.open({
+          message: 'ユーザー登録が完了しました。',
+          position: 'top',
+        });
+      } catch (error) {
+        this.$toast.open({
+          type: 'error',
+          message: 'ユーザーの登録に失敗しました。',
+          position: 'top',
+        });
+        console.error(error);
+      }
     },
   },
 });

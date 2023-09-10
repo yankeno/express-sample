@@ -32,22 +32,28 @@
         </v-menu>
       </v-col>
     </v-row>
-    <b-table
-      hover
-      :items="items"
-      :fields="fields"
-      :sort-by.sync="sortBy"
-      :busy="isBusy"
-      head-variant="light"
-      responsive="sm"
-    >
-      <template #table-busy>
-        <div class="text-center text-danger my-2">
-          <b-spinner class="align-middle"></b-spinner>
-          <strong>Loading...</strong>
-        </div>
-      </template>
-    </b-table>
+    <div>
+      <b-table
+        hover
+        :items="items"
+        :fields="fields"
+        :sort-by.sync="sortBy"
+        :busy="isBusy"
+        head-variant="light"
+        responsive="sm"
+        show-empty
+      >
+        <template #empty="">
+          <span>対象月の支出はありません。</span>
+        </template>
+        <template #table-busy>
+          <div class="text-center text-danger my-2">
+            <b-spinner class="align-middle"></b-spinner>
+            <strong>Loading...</strong>
+          </div>
+        </template>
+      </b-table>
+    </div>
   </div>
 </template>
 

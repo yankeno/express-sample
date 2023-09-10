@@ -156,15 +156,6 @@ nuxt.config.js の設定不備
 - [user always redirected to login on refresh in nuxt.js auth](https://ja.wikipedia.org/wiki/%E7%99%BD%E9%B3%A5%E7%94%B1%E6%A0%84)
 - [@nuxtjs/auth Why refresh page always redirect to login](https://stackoverflow.com/questions/58917958/nuxtjs-auth-why-refresh-page-always-redirect-to-login)
 
-# 実装予定
-
-## ダッシュボードで実装するグラフ
-
-- 月内の支出額をカテゴリごとに表示する円グラフ
-- 支出の額を時系列で表示する棒グラフ
-  - 表示範囲はカレンダーで選択可能とする
-  - 週ごと、月ごとで表示可能とする
-
 # 参考 URL
 
 - [typeorm の設定を ormconfig.ts から読み込む](https://zenn.dev/msksgm/articles/20211107-typeorm-ormconfig)
