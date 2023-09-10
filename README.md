@@ -1,3 +1,7 @@
+# ER図
+
+![accounts_book](https://github.com/yankeno/express-sample/assets/79403113/57a54de1-9964-40ff-9c75-f69d8fc837b2)
+
 # ハマりポイント
 
 ## 多対多リレーションで中間テーブルや外部キーの名称を TypeORM のデフォルト以外にする方法がわからない
